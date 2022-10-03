@@ -10,7 +10,7 @@ import ml5 from 'ml5';
 
 //charNNN predictions
 //TODO:  model should be dependend on selection
-const rnn = new ml5.charRNN("./models/dickinson_fulltext", modelLoaded);
+const rnn = new ml5.charRNN("./models/shakespeare", modelLoaded);
 
 function modelLoaded() {
   console.log('Model Loaded!');
@@ -18,7 +18,7 @@ function modelLoaded() {
 
   rnn.generate({ 
     seed: 'When the sun is ' , //TODO: input
-    length: 30, //TODO variable (dat gui)
+    length: 25, //TODO variable (dat gui)
     temperature: 0.5 //TODO: Variable (dat gui)
 
 
@@ -37,15 +37,24 @@ export default function App() {
             you (auto)complete me
           </h1>
 
-        <ul>
-          <li className="list-none text-gray-300">Shakespeare</li>
-          <li className="list-none text-gray-300">Dickinson</li>
-          <li className="list-none text-gray-300">TS Eliot</li>
-        </ul>
+        <form>
+          <label className="text-gray-300">Shakespeare
+            <input type="radio"/> 
+          </label>
+          <label className="text-gray-300">Dickinson
+            <input type="radio" /> 
+          </label>
+          <label className="text-gray-300">TS Eliot
+            <input type="radio" /> 
+          </label>
+        </form>
+          
+        
 
       </header>
       
-      <div className="max-w-[100vw] mx-4 mt-8 mb-4">
+      <div className="max-w-[80vw] mx-4 mt-8 mb-4">
+
         <Editor />
       </div>
     </div>

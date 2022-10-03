@@ -4,19 +4,15 @@
 
 [Github]()
 
-**Tech**
+**Stack & Libraries**
 
 Built with 
 
 - React [link]
 - TailwindCSS [link]
-- DatGui
-- 
+- mL5 CharRNN [Link] 
+- Lexicon [Link]
 
-**Libraries**
-
-- Ml5 charRNN
-- 
 
 **Poets**
 
@@ -84,38 +80,38 @@ This project is an example of a machine learning regression models in action. It
    You should now see that your terminal is in a new Python sub terminal, and your machine is ready to learn.
      
 
-- [x] Train the model using the 'Complete Poems of Emily Dickinson'
+- [x] Train the model using the text files.
 
-        I used [this](https://www.gutenberg.org/ebooks/12242) version of Emily Dickinson's complete poems and created a new txt file, with everything but the poems cut out.
+   I used [this](https://www.gutenberg.org/ebooks/12242) version of Emily Dickinson's complete poems and created a new txt file, with everything but the poems removed.
 
-        Check the size of your file--you want as much data as possible.
+   Check the size of your file--you want as much data as possible (but your training might take a while).
 
-        The next set of instructions are as per the github instructions for training a model. 
+   The next set of instructions are as per the github instructions for training a model. 
 
-            ```
-            $ git clone https://github.com/ml5js/training-charRNN
-            $ cd training-charRNN
-            $ pip install -r requirements.txt
-            $ python train.py --data_path /path/to/data/file.txt
-            ```
+      ```bash
+         $ git clone https://github.com/ml5js/training-charRNN
+         $ cd training-charRNN
+         $ pip install -r requirements.txt
+         $ python train.py --data_path /path/to/data/file.txt
+      ```
 
-         Depending on the size of your text file, you might like to set some [hyperparameters](https://github.com/ml5js/training-charRNN#hyperparameters). The size of your file will also impact the speed of the training -- my Dickinson and Eliot training took about a minute, while the original Shakespeare full text I tried using was scheduled to run for 14 hours.
+   Depending on the size of your text file, you might like to set some [hyperparameters](https://github.com/ml5js/training-charRNN#hyperparameters). The size of your file will also impact the speed of the training -- my Dickinson and Eliot training took about a minute, while the original Shakespeare full text I tried using was scheduled to run for 14 hours.
 
-         Once the training is complete, you can find the models you made in the `models/` folder. You'll need to copy the entire thing into your project so you can access them.
+   Once the training is complete, you can find the models you made in the `models/` folder. You'll need to copy the entire thing into your project so you can access them.
 
          
 
 - [x] Generate predictions using the model
    
-      NB: Using the ml5 library from localhost results in CORS errors. You might notice that if ou try to create a basic HTML template and then try to run your page, you will get a 404 error in the console.
+   NB: Using the ml5 library from localhost results in CORS errors. You might notice that if ou try to create a basic HTML template and then try to run your page, you will get a 404 error in the console.
 
-      To avoid this, one solution is to run this project as a live server. I used **Live Server**, which is available as an extension with VS Code.
+   To avoid this, one solution is to run this project as a live server. I used **Live Server**, which is available as an extension with VS Code.
 
-      In React placing the models into the `public` folder helped to overcome the same issues.
+   In React placing the models into the `public` folder helped to overcome the same issues.
 
-      To see your model in action, oyu can create a basic HTML file usiong this bolier plagte from ml5:
+   To see your model in action, you can create a basic HTML file using this boiler plate from ml5:
       
-         ```html
+      ```html
          <!DOCTYPE html>
          <html lang="en">
          <head>
@@ -132,11 +128,11 @@ This project is an example of a machine learning regression models in action. It
             </script>
          </body>
          </html>
-         ```
+      ```
       
-      The instructions on the [ml5](https://learn.ml5js.org/#/reference/charrnn) site are excellent and clear, and I'm simply reproducing them here.
+   The instructions on the [ml5](https://learn.ml5js.org/#/reference/charrnn) site are excellent and clear, and I'm simply reproducing them here.
 
-      Once you have the basic HTML in place, you can add the following to the `<script>` tags:
+   Once you have the basic HTML in place, you can add the following to the `<script>` tags:
 
       ```javascript
 
@@ -154,9 +150,11 @@ This project is an example of a machine learning regression models in action. It
       });
 
       ```
-      Just be sure that you correctly point  `charRNN()` to the path where you have the models.
+   Just be sure that you correctly point  `charRNN()` to the path where you have the models.
 
-      And that is it! If you open the console, you should firstly see that the Ml5 library is connected. Then you will return an object with a key `sample`, which is has been generated from your model!
+   [TODO: Variables in rnn.generate]
+
+   And that is it! If you open the console, you should firstly see that the Ml5 library is connected. Then you will return an object with a key `sample`, which is has been generated from your model!
 
 
 - [] Create a front end to allow users to enter text,  and then have the model supply the next line
