@@ -88,12 +88,14 @@ This project is an example of a machine learning regression models in action. It
 
    The next set of instructions are as per the github instructions for training a model. 
 
-      ```bash
-         $ git clone https://github.com/ml5js/training-charRNN
-         $ cd training-charRNN
-         $ pip install -r requirements.txt
-         $ python train.py --data_path /path/to/data/file.txt
-      ```
+   ```bash
+
+   $ git clone https://github.com/ml5js/training-charRNN
+   $ cd training-charRNN
+   $ pip install -r requirements.txt
+   $ python train.py --data_path /path/to/data/file.txt
+   
+   ```
 
    Depending on the size of your text file, you might like to set some [hyperparameters](https://github.com/ml5js/training-charRNN#hyperparameters). The size of your file will also impact the speed of the training -- my Dickinson and Eliot training took about a minute, while the original Shakespeare full text I tried using was scheduled to run for 14 hours.
 
