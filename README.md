@@ -1,70 +1,112 @@
-# Getting Started with Create React App
+# Welcome to the You (auto)coomplete Me Readem:computer: :memo:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Author: Brendan Tuckerman**
 
-## Available Scripts
+**Overview:** 
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This project is an example of a machine learning regression. It uses the ML5  library to suggest lines of poetry in the style of Emily Dickinson.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    This is my letter to the world,
+       That never wrote to me, --
+    The simple news that Nature told,
+       With tender majesty.
 
-### `npm test`
+    Her message is committed
+       To hands I cannot see;
+    For love of her, sweet countrymen,
+       Judge tenderly of me!
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+This folder stores the Python Environment, the Models, and the original text which are used to train the models. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Tutorial: Training a model using CharNNN
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- [x] Develop an environment.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    Training a model with the CharNNN library requires access to tensorflow, which requires some pretty simply Python scripting. The instructions for this can from accessed the [github for the CharNNN library](). Be sure to use Python 3.6 as per the instructions. 
 
-### `npm run eject`
+    You can check which versions of Python you have using 
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    `$ python --version`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    You might need to download Python 3.6 for your OS.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+       
+    Also ensure that you have installed `pip`, which is the package manager for Python.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   We are going to use `pip` and `python 3.6` to set up a virtual environment on our machine, so that it does not interfere with any local Python on our machine.
 
-## Learn More
+   I used [virtualenv](https://virtualenv.pypa.io/en/latest/) to set up my Python virtual environment, but `venv` should also work.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   To install virtualenv:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   `pip install virtualenv`
 
-### Code Splitting
+   Once we have virtualenv, we can create an environment using 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   `virtualenv -p python3.6 YOUR_ENV_NAME_HERE`
 
-### Analyzing the Bundle Size
+    The environment is now created, and you should see that your terminal is in a new Python sub terminal.
+    We have to activate this new environment with
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    `source YOUR_ENV_NAME_HERE/bin/activate`
+    
+     
 
-### Making a Progressive Web App
+- [x] Train the model using the 'Complete Poems of Emily Dickinson'
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+        I used [this](https://www.gutenberg.org/ebooks/12242) version of Emily Dickinson's complete poems and created a new txt file, with everything but the poems cut out.
 
-### Advanced Configuration
+        Check the size of your file--you want as much data as possible.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+        The next set of instructions are as per the github instructions for training a model. 
 
-### Deployment
+            ```
+            $ git clone https://github.com/ml5js/training-charRNN
+            $ cd training-charRNN
+            $ pip install -r requirements.txt
+            $ python train.py --data_path /path/to/data/file.txt
+            ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+         Depending on the size of your text file, you might like to set some [hyperparameters](https://github.com/ml5js/training-charRNN#hyperparameters). The size of your file will also impact the speed of the training -- my Dickinson and Eliot training took seconds, while Shakespeare took ~ 14 hours!
 
-### `npm run build` fails to minify
+         
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+- [x] Generate predictions using the model
+   
+      NB: Using the ml5 library from localhost results in CORS errors. You might notice that if ou try to create a basic HTML template and then try to run your page, you will get an error:
+
+      'insert error here'
+
+      To avoid this, one solution is to run this project as a live server. I used **Live Server**, which is available as an extension with VS Code.
+
+- [] Create a front end to allow users to enter text,  and then have the model supply the next line
+
+
+## Inspiration 
+
+[Selected Stories](https://cvalenzuela.github.io/Selected_Stories/)
+
+[Nabil Hassein's generative DOOM](https://nabilhassein.github.io/generative-DOOM/)
+
+
+## Resources and tutorials:
+
+[Python virtualenv on ArchLinux](https://wiki.archlinux.org/title/Python/Virtual_environment)
+
+[ML5.js Library](https://learn.ml5js.org/#/)
+
+[Project Gutenberg](https://www.gutenberg.org/)
+
+[Working with Lexical](https://github.com/facebook/lexical)
+
+[CharNNN Library from ML5](https://learn.ml5js.org/#/reference/charrnn)
+
+[Creating a VirtualEnv to run the Python needed to train a model](https://www.youtube.com/watch?v=nnhjvHYRsmM)
+
+[Training a CharNNN using the model in ml5.js](https://github.com/ml5js/training-charRNN)
+
+[Text Generation with LTSM and Spell](https://www.youtube.com/watch?v=xfuVcfwtEyw)

@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+body {
+    margin: 0;
+    background: #eee;
+    font-family: 'Libre', serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .App {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  .ltr {
+    text-align: left;
+  }
+  
+  .rtl {
+    text-align: right;
+  }
+  
+  .editor-placeholder {
+    color: #999;
+    overflow: hidden;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    user-select: none;
+    pointer-events: none;
+  }
+  
+  .editor-paragraph {
+    margin: 0 0 15px 0;
+    position: relative;
+  }
