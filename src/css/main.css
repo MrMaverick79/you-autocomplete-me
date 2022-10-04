@@ -74,3 +74,17 @@ body {
     caret-color: #444;
   }
   
+
+  /* Toolbar */
+
+  .toolbar {
+    display: flex;
+    margin-bottom: 1px;
+    background: #fff;
+    padding: 4px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    vertical-align: middle;
+  }
+
+  

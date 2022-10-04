@@ -1,5 +1,8 @@
+// CSS
 import './css/main.css'
 import './css/tailwind.css'
+
+// Lexical
 import {$getRoot, $getSelection, COMMAND_PRIORITY_HIGH, KEY_ENTER_COMMAND} from 'lexical';
 import {useRef, useEffect} from 'react';
 import {ElementFormatType, LexicalCommand, TextFormatType} from 'lexical';
@@ -12,10 +15,14 @@ import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
 
+// Ml5 Library
+import ml5 from 'ml5';
 
-//lexical 
+
+//Lexical setting 
 const theme = {
   //these need to be defined in css  / tailwind
+  //also should be used in variables below in case of changes
   ltr: "ltr",
   rtl: "rtl",
   border: "border-0", //tailwind
@@ -86,9 +93,9 @@ const theme = {
 
 const keyCodes= {
   //THESE CAN BE USED IN EVENT HANDLERS
-  'escape': 27,
-  'enter': 13,
-  'tab': 9
+  escape: 27,
+  enter: 13,
+  tab: 9
 }
 
 
@@ -103,7 +110,7 @@ function onChange(editorState) {
     const root = $getRoot();
     const selection = $getSelection();
 
-    console.log(root, selection);
+    // console.log(root, selection);
   });
 
   
@@ -148,10 +155,9 @@ function onError(error) {
 }
 
 //themes etc
-export default function Editor() {
+export default function Editor(props) {
   
-  
-  const ref = useRef(null);
+ 
   
   const initialConfig = {
     namespace: 'MyEditor', 
@@ -177,16 +183,63 @@ export default function Editor() {
 
     
 
-
-
   }, []);
 
   const detectKeyPress = (e) => {
-    console.log('This key has been pressed', e.key);
+    //detects which key has been pressed and looks out for the action keys - enter, tab, esc
+    // console.log('This key has been pressed', e.key);
+    switch (e.which){
+      case keyCodes.enter:
+        getSeed()
+    }  
+
   }
 
-  //experimenting with lexical commands
- 
+  //sets the 'seed' as the last line written.
+  // Fires when enter is pressed
+  const getSeed = () => {
+      console.log('SetSeed');
+    
+      //All of the text on the page is stored in within <p>tagged as 'editor-paragraph', which is set from within theme (and so should point there in case you change it.)
+     const allLines =  document.getElementsByClassName(`${theme.paragraph} ${theme.ltr}`)
+     const seed = allLines[allLines.length-1].innerText //get the last line that is written --the class "ltr" avoids any blanks
+     
+     //TODO might have to grab the dat gui variables if you want to be able to use these as arguments in createNewLine
+      
+     createNewLine(seed);  
+      
+    }; //getSeed
+  
+    //using the seed (the last line typed, create a new line from the charRNN model)
+    const createNewLine = (seed) => {
+      let prediction;
+
+      console.log('This.props.model', props.model);
+      const rnn = new ml5.charRNN(`./models/${props.model}`, modelLoaded);
+
+      function modelLoaded() {
+        console.log('Model Loaded!');
+        }
+
+       rnn.generate({ 
+        seed: seed,
+        length: 25, //TODO variable (dat gui)
+        temperature: 0.5 //TODO: Variable (dat gui)
+
+
+      }, (err, results) => {
+      console.log('Results or error',results, err);
+       prediction =  results
+       return prediction
+       //todo: err message
+      });
+
+      //go back to the docs--generate is returning sometinhg, but what is this predict doing?
+      console.log(prediction["sample"]);
+     
+
+
+    }; //end createNewLine 
 
   return (
     <LexicalComposer initialConfig={initialConfig}>

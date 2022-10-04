@@ -4,29 +4,11 @@ import "./js/main"  //custom js
 
 import React from 'react';
 import Editor from './Editor';
-import ml5 from 'ml5';
-
-// ? This might be better in the Editor component
-
-//charNNN predictions
-//TODO:  model should be dependend on selection
-const rnn = new ml5.charRNN("./models/shakespeare", modelLoaded);
-
-function modelLoaded() {
-  console.log('Model Loaded!');
-  }
-
-  rnn.generate({ 
-    seed: 'When the sun is ' , //TODO: input
-    length: 25, //TODO variable (dat gui)
-    temperature: 0.5 //TODO: Variable (dat gui)
 
 
-}, (err, results) => {
-console.log(results, err);
-});
 
-console.log(rnn.predict(0.5))
+
+
 
 
 export default function App() {
@@ -52,10 +34,12 @@ export default function App() {
         
 
       </header>
-      
+      {/* SIDEBAR COMPONENT */}
       <div className="max-w-[80vw] mx-4 mt-8 mb-4">
 
-        <Editor />
+        <Editor 
+              model={'shakespeare'}
+        /> 
       </div>
     </div>
   );
