@@ -94,7 +94,7 @@ This project is an example of a machine learning regression models in action. It
    $ cd training-charRNN
    $ pip install -r requirements.txt
    $ python train.py --data_path /path/to/data/file.txt
-   
+
    ```
 
    Depending on the size of your text file, you might like to set some [hyperparameters](https://github.com/ml5js/training-charRNN#hyperparameters). The size of your file will also impact the speed of the training -- my Dickinson and Eliot training took about a minute, while the original Shakespeare full text I tried using was scheduled to run for 14 hours.
@@ -136,22 +136,23 @@ This project is an example of a machine learning regression models in action. It
 
    Once you have the basic HTML in place, you can add the following to the `<script>` tags:
 
-      ```javascript
+   ```javascript
 
-      // Create the character level generator with a pre trained model
-      const rnn = ml5.charRNN('models/bolaño/', modelLoaded);
+   // Create the character level generator with a pre trained model
+   const rnn = ml5.charRNN('models/bolaño/', modelLoaded);
 
-      // When the model is loaded
-      function modelLoaded() {
+   // When the model is loaded
+   function modelLoaded() {
       console.log('Model Loaded!');
-      }
+   }
 
-      // Generate content
-      rnn.generate({ seed: 'the meaning of pizza is' }, (err, results) => {
+   // Generate content
+   rnn.generate({ seed: 'the meaning of pizza is' }, (err, results) => {
       console.log(results);
-      });
+   });
 
-      ```
+   ```
+
    Just be sure that you correctly point  `charRNN()` to the path where you have the models.
 
    [TODO: Variables in rnn.generate]
@@ -160,6 +161,13 @@ This project is an example of a machine learning regression models in action. It
 
 
 - [] Create a front end to allow users to enter text,  and then have the model supply the next line
+
+
+## Wishlist
+
+- [] Allow the user to provide a title independent of the body of the work
+
+- []
 
 
 

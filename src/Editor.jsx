@@ -18,6 +18,7 @@ const theme = {
   //these need to be defined in css  / tailwind
   ltr: "ltr",
   rtl: "rtl",
+  border: "border-0", //tailwind
   placeholder: "editor-placeholder",
   paragraph: "editor-paragraph",
   quote: "editor-quote",
