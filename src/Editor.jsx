@@ -3,7 +3,7 @@ import './css/main.css'
 import './css/tailwind.css'
 
 // Lexical
-import {$createParagraphNode, $createTextNode, $getRoot, $getSelection, COMMAND_PRIORITY_HIGH, KEY_ENTER_COMMAND} from 'lexical';
+import {$createParagraphNode, $createTextNode, $getRoot, $getSelection, COMMAND_PRIORITY_HIGH, FOCUS_COMMAND, KEY_ENTER_COMMAND, LexicalEditor} from 'lexical';
 import {useRef, useEffect} from 'react';
 import {ElementFormatType, LexicalCommand, TextFormatType} from 'lexical';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
@@ -17,6 +17,7 @@ import ToolbarPlugin from "./plugins/ToolbarPlugin";
 
 // Ml5 Library
 import ml5 from 'ml5';
+
 
 
 //Lexical setting 
@@ -128,6 +129,7 @@ function MyCustomAutoFocusPlugin() {
 
   useEffect(() => {
     // Focus the editor when the effect fires!
+   
     editor.focus();
   }, [editor]);
 
@@ -160,15 +162,19 @@ function UpdatePlugin(){
         const p = $createParagraphNode()
         p.append($createTextNode("Computer Line"))
         root.append(p)
-       
-
-
+        const q = $createParagraphNode()
+        q.append($createTextNode()) 
+        root.append(q)
+        console.log('Tryig to get the last element:', editor.getRootElement())
+        q.select()
       }); 
+
+
 
   }
 
   useEffect(()=>{
-    
+    //TODO: we probablw ont need this version due to the editor.resiterCommand
     const element = document.getElementById("detect_change");
     element.addEventListener('keydown', detectKeyPress, false);
      //this prevents a new line from being created on enter
@@ -181,8 +187,13 @@ function UpdatePlugin(){
         return true
       }, COMMAND_PRIORITY_HIGH
     )
+
+    // Focus the editor when the effect fires!
+    
     
   }, [editor]);
+
+  
 
 
  
