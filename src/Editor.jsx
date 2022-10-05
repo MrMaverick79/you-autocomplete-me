@@ -3,7 +3,7 @@ import './css/main.css'
 import './css/tailwind.css'
 
 // Lexical
-import {$getRoot, $getSelection, COMMAND_PRIORITY_HIGH, KEY_ENTER_COMMAND} from 'lexical';
+import {$createParagraphNode, $createTextNode, $getRoot, $getSelection, COMMAND_PRIORITY_HIGH, KEY_ENTER_COMMAND} from 'lexical';
 import {useRef, useEffect} from 'react';
 import {ElementFormatType, LexicalCommand, TextFormatType} from 'lexical';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
@@ -93,6 +93,7 @@ const theme = {
 
 const keyCodes= {
   //THESE CAN BE USED IN EVENT HANDLERS
+  //But look inot lexicals own key events
   escape: 27,
   enter: 13,
   tab: 9
@@ -104,13 +105,14 @@ const keyCodes= {
 function onChange(editorState) {
   
 
+
   editorState.read(() => {
     
     // Read the contents of the EditorState here.
     const root = $getRoot();
     const selection = $getSelection();
 
-    // console.log(root, selection);
+    console.log(root, selection);
   });
 
   
@@ -145,6 +147,60 @@ function MyCustomAutoFocusPlugin() {
    
 // }
 
+//Append a p to the root using this plugin
+function UpdatePlugin(){
+  //TODO: export/ import. Place key handlers
+  const [editor]  = useLexicalComposerContext(); //this is key to the plugins- it allows us to acces the 'state' of the editor
+
+  //TODO: Autofocus node on the last one?
+  //TODO: Delete the new line that appears
+  function  update() {
+      editor.update(()=> {
+        const root = $getRoot();
+        const p = $createParagraphNode()
+        p.append($createTextNode("Computer Line"))
+        root.append(p)
+       
+
+
+      }); 
+
+  }
+
+  useEffect(()=>{
+    
+    const element = document.getElementById("detect_change");
+    element.addEventListener('keydown', detectKeyPress, false);
+     //this prevents a new line from being created on enter
+     //you should be able to use this for a model AND fire off the 
+     //events through this without using detect key press
+    editor.registerCommand (
+      KEY_ENTER_COMMAND,
+      (event) => {
+        console.log('Here is the register command', event);
+        return true
+      }, COMMAND_PRIORITY_HIGH
+    )
+    
+  }, [editor]);
+
+
+ 
+
+  const detectKeyPress = (e) => {
+    
+    console.log('Update editor is now registering the key press', e.which)
+    switch (e.which){
+      case keyCodes.enter:
+        e.preventDefault() //was hoping this would prevent new line
+        update(); //testing
+    }
+  } //end detectKeyPress
+        
+
+ 
+    
+}
 
 
 // Catch any errors that occur during Lexical updates and log them
@@ -154,7 +210,7 @@ function onError(error) {
   console.error(error);
 }
 
-//themes etc
+//Editor -- main component
 export default function Editor(props) {
   
  
@@ -164,6 +220,13 @@ export default function Editor(props) {
     theme: theme, //above
     onError(error){
       throw error
+    },
+    editorState: () =>{
+      const root = $getRoot();
+      root.clear();
+      const p = $createParagraphNode()
+      p.append($createTextNode())
+      root.append(p)
     },
 
     nodes: [
@@ -175,25 +238,29 @@ export default function Editor(props) {
   
 
   //event listeners and handlers
-  useEffect(()=>{
+  // ** Moved to UpdateEditor
+  // useEffect(()=>{
     
-    const element = document.getElementById("detect_change");
+  //   const element = document.getElementById("detect_change");
     
-    element.addEventListener('keydown', detectKeyPress, false);
+  //   element.addEventListener('keydown', detectKeyPress, false);
 
     
 
-  }, []);
+  // }, []);
 
-  const detectKeyPress = (e) => {
-    //detects which key has been pressed and looks out for the action keys - enter, tab, esc
-    // console.log('This key has been pressed', e.key);
-    switch (e.which){
-      case keyCodes.enter:
-        getSeed()
-    }  
+  // const detectKeyPress = (e) => {
+    
+   
+        
+  //   //detects which key has been pressed and looks out for the action keys - enter, tab, esc
+  //   // console.log('This key has been pressed', e.key);
+  //   switch (e.which){
+  //     case keyCodes.enter:
+  //       getSeed()
+  //   }  
 
-  }
+  // }
 
   //sets the 'seed' as the last line written.
   // Fires when enter is pressed
@@ -211,9 +278,9 @@ export default function Editor(props) {
     }; //getSeed
   
     //using the seed (the last line typed, create a new line from the charRNN model)
-    const createNewLine = (seed) => {
-      let prediction;
 
+    const createNewLine = async(seed) => {
+      
       console.log('This.props.model', props.model);
       const rnn = new ml5.charRNN(`./models/${props.model}`, modelLoaded);
 
@@ -221,41 +288,46 @@ export default function Editor(props) {
         console.log('Model Loaded!');
         }
 
-       rnn.generate({ 
+      const generate = await rnn.generate({ 
+        //options
         seed: seed,
-        length: 25, //TODO variable (dat gui)
-        temperature: 0.5 //TODO: Variable (dat gui)
+        length: 50, //TODO variable (dat gui)
+        temperature: 0.1 //TODO: Variable (dat gui)
 
-
+      //callback function
       }, (err, results) => {
       console.log('Results or error',results, err);
-       prediction =  results
-       return prediction
+       return results
        //todo: err message
       });
 
-      //go back to the docs--generate is returning sometinhg, but what is this predict doing?
-      console.log(prediction["sample"]);
-     
+            
+      addPoetLine(generate.sample) //this is the text for the next line
 
 
     }; //end createNewLine 
 
+    //Add the new line to the editor
+    const addPoetLine = (line) => {
+      const root = $getRoot();
+      console.log('Root', root)
+    }; 
+
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className="editor-container">
-        <ToolbarPlugin />
+        {/* <ToolbarPlugin /> */}
         <div className="editor-inner" id="detect_change">
           <RichTextPlugin 
             contentEditable={<ContentEditable />}
-            placeholder={<div className='editor-placeholder'>Enter some text...</div>}
+            placeholder={<div className='editor-placeholder'>Write the first line and press enter...</div>}
             
           />
          
-          {/* <OnChangePlugin onChange={onChange}  /> */}
+         
           <OnChangePlugin onChange={onChange}  />
           <HistoryPlugin />
-          
+          <UpdatePlugin />
           <MyCustomAutoFocusPlugin />
         </div>
       </div>

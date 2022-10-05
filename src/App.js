@@ -4,7 +4,7 @@ import "./js/main"  //custom js
 
 import React from 'react';
 import Editor from './Editor';
-
+import { StrictMode } from "react";
 
 
 
@@ -36,10 +36,11 @@ export default function App() {
       </header>
       {/* SIDEBAR COMPONENT */}
       <div className="max-w-[80vw] mx-4 mt-8 mb-4">
-
-        <Editor 
-              model={'shakespeare'}
-        /> 
+        <StrictMode>
+          <Editor 
+                model={'shakespeare'}
+          /> 
+        </StrictMode>
       </div>
     </div>
   );
