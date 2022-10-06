@@ -1,15 +1,15 @@
 //These are custom hooks for the logic related to the charRNN library
 
-import { useState } from "react";
+
 import ml5 from 'ml5'; // Ml5 Library
-import { text } from "@fortawesome/fontawesome-svg-core";
+
 
 async function useCharRNN (seed, model) {
 
     console.log('We are now in the new hook with seed, model', seed, model);
    
       
-    console.log('This.props.model',     model);
+    console.log('This.props.model', model);
     const rnn = new ml5.charRNN(`./models/${model}`, modelLoaded);
   
     function modelLoaded() {
@@ -19,8 +19,8 @@ async function useCharRNN (seed, model) {
     const generate = await rnn.generate({ 
           //options
           seed: seed,
-          length: 50, //TODO variable (dat gui)
-          temperature: 0.1 //TODO: Variable (dat gui)
+          length: 80, //TODO variable (dat gui)
+          temperature: 0.5 //TODO: Variable (dat gui)
   
         //callback function
         }, (err, results) => {
@@ -29,10 +29,14 @@ async function useCharRNN (seed, model) {
          //todo: err message
         });         
     
+
+    //TODO: function to deal with text, including removing punctuation
     ///lets clean up the response.
     let text = generate["sample"]
-    text = text.trim()
-   
+    text = text.trim().replace(/(\r\n|\n|\r)/gm, " ") //remove line breaks and white space
+   //TODO: conditional if the res is less than the expected length (because the model produced too much white space)
+   //TODO: this will require a seperate function in here as you can't 
+   //call charRNN again
 
     return text
 

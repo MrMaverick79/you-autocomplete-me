@@ -28,6 +28,7 @@ const theme = {
   ltr: "ltr",
   rtl: "rtl",
   border: "border-0", //tailwind
+  focus: "focus:border-transparent", //??
   placeholder: "editor-placeholder",
   paragraph: "editor-paragraph",
   quote: "editor-quote",
@@ -146,22 +147,27 @@ function MyCustomAutoFocusPlugin() {
 
 
 //Append a <p> to the root using this plugin
+//This custom 'plugin' is responsible for storing the 
+//seed entered by the user and the generated line.
+// The core of it is update(), which places a two nodes onto the 
+// exisiting ones--one from the machine learning model,
+// and a blank one to allow the user to continue typing.
 function UpdatePlugin(props){
   //TODO: export/ import to seperate?. Place key handlers
   const [editor]  = useLexicalComposerContext(); //this is key to the Lexical plugins- it allows us to acces the 'state' of the editor.
   
   const [seed, setSeed] = useState("")
-  const[computerLine, setComputerLine] = useState("") 
+  const[computerLine, setComputerLine] = useState(null) 
    //Also note the syntax to 'read' the editor in the OnChange component.
   
   // setComputerLine(await useCharRNN(seed, props.model)); 
   //  console.log('The line I get back is', computerLine)
   //need to grab the seed here and send it to useCharRNN
 
-  //This places a new node. It needs to be added in useEffect
-  function  update(computerLine) {
+  //This places a new node. 
+  function  update() {
 
-      editor.update((computerLine)=> {
+      editor.update(()=> {
         const root = $getRoot();
         
         //TODO: "Computer line"--> function chain to fetch words
@@ -170,7 +176,7 @@ function UpdatePlugin(props){
 
         //Create and append a computer line
         const p = $createParagraphNode()
-        p.append($createTextNode(`${computerLine}`))
+        p.append($createTextNode(computerLine))
         root.append(p)
 
         //Create and append a blank user line and focus on it.
@@ -185,14 +191,14 @@ function UpdatePlugin(props){
 
   }
 
-  useEffect( ()=>{
-    async function  fetchData() {
-      const res = await GetLine(seed, props.model)
-      console.log('Finally get a response', res);
-      //TODO: conditional if the res is less than the expected length
-      return res;
-    }
-    setComputerLine(fetchData())
+  useEffect(()=>{
+    // async function  fetchData() {
+    //   const res = await GetLine(seed, props.model)
+    //   console.log('Finally get a response', res);
+      
+    //   return res;
+    // }
+    // setComputerLine(fetchData()) //set the response as computerLine in 'state'
 
 
     
@@ -211,18 +217,38 @@ function UpdatePlugin(props){
     // Focus the editor when the effect fires!
     
     
-  }, [editor, seed]); //end use Effect (ENTER)
+  }, []); //end use Effect (ENTER)
 
+  // useEffect(()=>{
+  //   if(computerLine){
+  //     update(computerLine)
+  //   }
   useEffect(()=>{
-    if(computerLine){
-      update(computerLine)
+    let newLine = fetchData()
+
+    async function  fetchData() {
+      const res = await GetLine(seed, props.model)
+      console.log('Finally get a response', res);
+      setComputerLine(res)
     }
+     //set the response as computerLine in 'state'
+  
     
 
-  }, [computerLine]); //for when seed is changed
+ }, [seed]); //for when seed is changed
+
+ useEffect(()=>{
+  console.log('Letting you know that CL has changed');
+  if(computerLine != null && seed != ""){
+    update()
+  }
+  
+  
+
+}, [computerLine]); //for when computerLine is changed
 
   const getSeed = () => {
-    console.log('getSeed');
+  console.log('getSeed');
   
   //All of the text on the page is stored in within <p>tagged as 'editor-paragraph', which is set from within theme (and so should point there in case you change it.)
    const allLines =  document.getElementsByClassName(`${theme.paragraph} ${theme.ltr}`)

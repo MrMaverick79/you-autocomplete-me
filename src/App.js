@@ -4,7 +4,7 @@ import "./js/main"  //custom js
 
 import React from 'react';
 import Editor from './Editor';
-import { StrictMode } from "react";
+import { StrictMode, useState } from "react";
 
 
 
@@ -12,6 +12,14 @@ import { StrictMode } from "react";
 
 
 export default function App() {
+
+  const [model, setModel] = useState("shakespeare") //default model
+
+  function onChange( event){
+    setModel(event.target.value) //set the model from the radio buttons
+  }
+
+
   return (
     <div>
       <header>
@@ -19,15 +27,15 @@ export default function App() {
             you (auto)complete me
           </h1>
 
-        <form>
+        <form onChange = {onChange}>
           <label className="text-gray-300">Shakespeare
-            <input type="radio"/> 
+            <input type="radio" value="shakespeare" name="model" checked/> 
           </label>
           <label className="text-gray-300">Dickinson
-            <input type="radio" /> 
+            <input type="radio" value="dickinson_fulltext" name="model" /> 
           </label>
           <label className="text-gray-300">TS Eliot
-            <input type="radio" /> 
+            <input type="radio" value= "tseliot_fulltext" name="model"/> 
           </label>
         </form>
           
@@ -38,7 +46,8 @@ export default function App() {
       <div className="max-w-[80vw] mx-4 mt-8 mb-4">
         <StrictMode>
           <Editor 
-                model={'shakespeare'}
+                model={model}
+              
           /> 
         </StrictMode>
       </div>
