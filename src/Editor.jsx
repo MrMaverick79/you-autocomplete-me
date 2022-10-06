@@ -4,7 +4,7 @@ import './css/tailwind.css'
 
 // Lexical
 import {$createParagraphNode, $createTextNode, $getRoot, $getSelection, COMMAND_PRIORITY_HIGH, FOCUS_COMMAND, KEY_ENTER_COMMAND, LexicalEditor} from 'lexical';
-import {useRef, useEffect} from 'react';
+import {useRef, useEffect, useState } from 'react';
 import {ElementFormatType, LexicalCommand, TextFormatType} from 'lexical';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
 import {PlainTextPlugin} from '@lexical/react/LexicalPlainTextPlugin';
@@ -14,13 +14,14 @@ import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
 import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
+import {useCharRNN} from "./plugins/charRNN"; //my bespoke charRNN hooks.
 
-// Ml5 Library
-import ml5 from 'ml5';
+import ml5 from 'ml5'; // Ml5 Library
 
 
 
-//Lexical setting 
+//Lexical settings --> the full version
+//TODO: edit and trim these 
 const theme = {
   //these need to be defined in css  / tailwind
   //also should be used in variables below in case of changes
@@ -92,9 +93,10 @@ const theme = {
   }
 };
 
+//TODO: Are these needed?
 const keyCodes= {
   //THESE CAN BE USED IN EVENT HANDLERS
-  //But look inot lexicals own key events
+  //But look into lexicals own key events
   escape: 27,
   enter: 13,
   tab: 9
@@ -103,9 +105,9 @@ const keyCodes= {
 
 // When the editor changes, you can get notified via the
 // LexicalOnChangePlugin!
+// Supplied by Lexical Boilerplate
 function onChange(editorState) {
   
-
 
   editorState.read(() => {
     
@@ -117,6 +119,10 @@ function onChange(editorState) {
   });
 
   
+} //end onChange
+
+function GetLine(seed, model){
+  return useCharRNN(seed, model)
 }
 
 
@@ -137,52 +143,66 @@ function MyCustomAutoFocusPlugin() {
 }
 
 // https://github.com/facebook/lexical/blob/main/packages/lexical/src/LexicalCommands.ts
-// function PressEnter(){
-//   const [editor] = useLexicalComposerContext();
 
-//   useEffect(() => {
-//     editor.registerCommand(
-//       KEY_ENTER_COMMAND,
-//       console.log('Enter  pressed'),
-//       COMMAND_PRIORITY_HIGH
-//     )}, [editor]);
-   
-// }
 
-//Append a p to the root using this plugin
-function UpdatePlugin(){
-  //TODO: export/ import. Place key handlers
-  const [editor]  = useLexicalComposerContext(); //this is key to the plugins- it allows us to acces the 'state' of the editor
+//Append a <p> to the root using this plugin
+function UpdatePlugin(props){
+  //TODO: export/ import to seperate?. Place key handlers
+  const [editor]  = useLexicalComposerContext(); //this is key to the Lexical plugins- it allows us to acces the 'state' of the editor.
+  
+  const [seed, setSeed] = useState("")
+  const[computerLine, setComputerLine] = useState("") 
+   //Also note the syntax to 'read' the editor in the OnChange component.
+  
+  // setComputerLine(await useCharRNN(seed, props.model)); 
+  //  console.log('The line I get back is', computerLine)
+  //need to grab the seed here and send it to useCharRNN
 
-  //TODO: Autofocus node on the last one?
-  //TODO: Delete the new line that appears
-  function  update() {
-      editor.update(()=> {
+  //This places a new node. It needs to be added in useEffect
+  function  update(computerLine) {
+
+      editor.update((computerLine)=> {
         const root = $getRoot();
+        
+        //TODO: "Computer line"--> function chain to fetch words
+        // TODO including animation: https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+        //TODO: DRY this so p and q are added together
+
+        //Create and append a computer line
         const p = $createParagraphNode()
-        p.append($createTextNode("Computer Line"))
+        p.append($createTextNode(`${computerLine}`))
         root.append(p)
+
+        //Create and append a blank user line and focus on it.
         const q = $createParagraphNode()
         q.append($createTextNode()) 
         root.append(q)
-        console.log('Tryig to get the last element:', editor.getRootElement())
-        q.select()
+        // console.log('Trying to get the last element:', editor.getRootElement())
+        q.select() //this focuses the cursor on the last element (i.e. the blank line)
       }); 
 
 
 
   }
 
-  useEffect(()=>{
-    //TODO: we probablw ont need this version due to the editor.resiterCommand
-    const element = document.getElementById("detect_change");
-    element.addEventListener('keydown', detectKeyPress, false);
-     //this prevents a new line from being created on enter
+  useEffect( ()=>{
+    async function  fetchData() {
+      const res = await GetLine(seed, props.model)
+      console.log('Finally get a response', res);
+      //TODO: conditional if the res is less than the expected length
+      return res;
+    }
+    setComputerLine(fetchData())
+
+
+    
      //you should be able to use this for a model AND fire off the 
      //events through this without using detect key press
     editor.registerCommand (
       KEY_ENTER_COMMAND,
       (event) => {
+        event.preventDefault()  //this is preventing a new line
+        getSeed();
         console.log('Here is the register command', event);
         return true
       }, COMMAND_PRIORITY_HIGH
@@ -191,28 +211,47 @@ function UpdatePlugin(){
     // Focus the editor when the effect fires!
     
     
-  }, [editor]);
+  }, [editor, seed]); //end use Effect (ENTER)
 
-  
-
-
- 
-
-  const detectKeyPress = (e) => {
-    
-    console.log('Update editor is now registering the key press', e.which)
-    switch (e.which){
-      case keyCodes.enter:
-        e.preventDefault() //was hoping this would prevent new line
-        update(); //testing
+  useEffect(()=>{
+    if(computerLine){
+      update(computerLine)
     }
-  } //end detectKeyPress
+    
+
+  }, [computerLine]); //for when seed is changed
+
+  const getSeed = () => {
+    console.log('getSeed');
+  
+  //All of the text on the page is stored in within <p>tagged as 'editor-paragraph', which is set from within theme (and so should point there in case you change it.)
+   const allLines =  document.getElementsByClassName(`${theme.paragraph} ${theme.ltr}`)
+   const seed = allLines[allLines.length-1].innerText //get the last line that is written --the class "ltr" avoids any blanks
+   
+   //TODO might have to grab the dat gui variables if you want to be able to use these as arguments in createNewLine
+    console.log('Seed', seed)
+    setSeed(seed) //sets the 'state' as seed
+    
+  //  createNewLine(seed);  
+    
+  }; //getSeed
+ 
+  //Because of the inbuilt ENTER_KEY_PRESS, we don't need a traditional event listenr:
+
+  // const detectKeyPress = (e) => {
+    
+  //   console.log('Update editor is now registering the key press', e.which)
+  //   switch (e.which){
+  //     case keyCodes.enter:
+  //       e.preventDefault() //was hoping this would prevent new line
+  //       update(); //testing
+  //   }
+  // } //end detectKeyPress
         
 
  
     
 }
-
 
 // Catch any errors that occur during Lexical updates and log them
 // or throw them as needed. If you don't throw them, Lexical will
@@ -338,7 +377,7 @@ export default function Editor(props) {
          
           <OnChangePlugin onChange={onChange}  />
           <HistoryPlugin />
-          <UpdatePlugin />
+          <UpdatePlugin model={props.model} />
           <MyCustomAutoFocusPlugin />
         </div>
       </div>

@@ -10,7 +10,7 @@ Built with
 
 - React [link]
 - TailwindCSS [link]
-- mL5 CharRNN [Link] 
+- mL5.js CharRNN [Link] 
 - Lexicon [Link]
 
 
@@ -138,18 +138,18 @@ This project is an example of a machine learning regression models in action. It
 
    ```javascript
 
-   // Create the character level generator with a pre trained model
-   const rnn = ml5.charRNN('models/bolaño/', modelLoaded);
+      // Create the character level generator with a pre trained model
+      const rnn = ml5.charRNN('models/bolaño/', modelLoaded);
 
-   // When the model is loaded
-   function modelLoaded() {
-      console.log('Model Loaded!');
-   }
+      // When the model is loaded
+      function modelLoaded() {
+         console.log('Model Loaded!');
+      }
 
-   // Generate content
-   rnn.generate({ seed: 'the meaning of pizza is' }, (err, results) => {
-      console.log(results);
-   });
+      // Generate content
+      rnn.generate({ seed: 'the meaning of pizza is' }, (err, results) => {
+         console.log(results);
+      });
 
    ```
 
@@ -163,11 +163,11 @@ This project is an example of a machine learning regression models in action. It
 - [] Create a front end to allow users to enter text,  and then have the model supply the next line
 
 
-## Wishlist
+## Wishlist / Future Additions
 
 - [] Allow the user to provide a title independent of the body of the work
 
-- []
+- [] Translate the project to Typescript
 
 
 
