@@ -396,7 +396,7 @@ export default function Editor(props) {
         <div className="editor-inner" id="detect_change">
           <RichTextPlugin 
             contentEditable={<ContentEditable />}
-            placeholder={<div className='editor-placeholder'>Write the first line and press enter...</div>}
+            placeholder={<div className='editor-placeholder'>Write your first line and press enter...</div>}
             
           />
          

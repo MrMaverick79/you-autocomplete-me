@@ -14,18 +14,27 @@ Built with
 - Lexicon [Link]
 
 
-**Poets**
+**Poets & Works**
 
 Emily Dickinson [link]
+Model derived from: https://www.gutenberg.org/cache/epub/12242/pg12242.txt
 
 William Shakespeare [link]
+Complete Works model derived from: https://www.gutenberg.org/cache/epub/100/pg100.txt
+
+Sonnets model derived from:  https://www.gutenberg.org/cache/epub/1041/pg1041.txt
+
 
 TS Eliot [link]
+Model derived from 'The Wasteland' and 'Prufrock and other Observations': https://www.gutenberg.org/ebooks/author/599
+
+Robert Frost [link]
+Model derived from: https://www.gutenberg.org/files/59824/59824-0.txt
 
 **Overview:** 
 
 
-This project is an example of a machine learning regression models in action. It uses the ML5  CharRNN library to creatively suggest poetry in the style of Emily Dickinson, T S Eliot and William Shakespeare.
+This project is an example of a machine learning regression models in action. It uses the ML5  CharRNN library to suggest poetry in the style of Emily Dickinson, T S Eliot, Robert Frost and William Shakespeare.
 
     This is my letter to the world,
        That never wrote to me, --
@@ -37,6 +46,29 @@ This project is an example of a machine learning regression models in action. It
     For love of her, sweet countrymen,
        Judge tenderly of me!
 
+
+
+**Sample Works**
+
+//TODO: Screenshots
+
+1. Emily Dickinson
+
+```
+
+
+The winds of spring
+— Would not straight the Clover — And how not and my Floods — And we and the 
+lost sought a new path where
+He could I do not see — The Sun — makes — and the say — The Summer heat
+It was not a firm — But when the Firmament — When the Heaven — and the Bee —
+only then
+The Wind abode — more there — And not for the Hills — The Summer — say — only once--
+The Grave an Art of the sun To still the room.
+
+
+
+```
 
 ##  About / Tutorial: Training a model using CharRNN
 
@@ -161,6 +193,9 @@ This project is an example of a machine learning regression models in action. It
 
 
 - [] Create a front end to allow users to enter text,  and then have the model supply the next line
+
+   There are many rich text editors available, but this project makes use of Lexical, which has been recently released as open-source by Meta.
+
 
 
 ## Wishlist / Future Additions

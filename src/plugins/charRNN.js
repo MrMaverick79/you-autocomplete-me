@@ -19,7 +19,7 @@ async function useCharRNN (seed, model) {
     const generate = await rnn.generate({ 
           //options
           seed: seed,
-          length: 80, //TODO variable (dat gui)
+          length: 30, //TODO variable (dat gui)
           temperature: 0.5 //TODO: Variable (dat gui)
   
         //callback function
@@ -30,7 +30,7 @@ async function useCharRNN (seed, model) {
         });         
     
 
-    //TODO: function to deal with text, including removing punctuation
+    //TODO: function to deal with text, including removing punctuation and numbers!
     ///lets clean up the response.
     let text = generate["sample"]
     text = text.trim().replace(/(\r\n|\n|\r)/gm, " ") //remove line breaks and white space

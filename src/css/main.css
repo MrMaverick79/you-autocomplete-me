@@ -15,6 +15,14 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+
+  /* Radio buttons */
+input[type='radio']{
+  accent-color: black;
+
+}
+
   
   .App {
     font-family: sans-serif;
@@ -87,6 +95,8 @@ body {
     outline: 0 !important;
     
   }
+
+  
   
   
 
