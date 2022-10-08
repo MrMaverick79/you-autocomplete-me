@@ -10,7 +10,7 @@ async function useCharRNN (seed, model) {
    
       
     console.log('This.props.model', model);
-    const rnn = new ml5.charRNN(`./models/clean_dickinson`, modelLoaded);
+    const rnn = new ml5.charRNN(`./models/clean_poe`, modelLoaded);
   
     function modelLoaded() {
           console.log('Model Loaded!');

@@ -13,8 +13,7 @@ import {ContentEditable} from '@lexical/react/LexicalContentEditable';
 import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
 import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import ToolbarPlugin from "./plugins/ToolbarPlugin";
-import {useCharRNN} from "./plugins/charRNN"; //my bespoke charRNN hooks.
+import {useCharRNN} from "./components/charRNN"; //my bespoke charRNN hooks.
 
 import ml5 from 'ml5'; // Ml5 Library
 

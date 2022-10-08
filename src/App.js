@@ -5,7 +5,8 @@ import "./js/main"  //custom js
 import React from 'react';
 import Editor from './Editor';
 import { StrictMode, useState } from "react";
-import { SideBar  } from "./plugins/SideBar";
+import { SideBar  } from "./components/SideBar";
+import Tiptap from "./components/Tiptap";
 
 
 
@@ -50,7 +51,7 @@ export default function App() {
       <div className="max-w-[100vw] mx-4 mt-8 mb-4">
         <StrictMode>
          
-          <Editor 
+          <Tiptap 
                 model={model}
               
           /> 
