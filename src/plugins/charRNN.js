@@ -10,7 +10,7 @@ async function useCharRNN (seed, model) {
    
       
     console.log('This.props.model', model);
-    const rnn = new ml5.charRNN(`./models/${model}`, modelLoaded);
+    const rnn = new ml5.charRNN(`./models/clean_dickinson`, modelLoaded);
   
     function modelLoaded() {
           console.log('Model Loaded!');
@@ -19,8 +19,8 @@ async function useCharRNN (seed, model) {
     const generate = await rnn.generate({ 
           //options
           seed: seed,
-          length: 30, //TODO variable (dat gui)
-          temperature: 0.5 //TODO: Variable (dat gui)
+          length: 50, //TODO variable (dat gui)
+          temperature: 0.4 //TODO: Variable (dat gui)
   
         //callback function
         }, (err, results) => {

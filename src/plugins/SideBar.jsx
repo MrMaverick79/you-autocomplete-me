@@ -1,5 +1,6 @@
 import { useState } from "react";
-// import "../css/"
+import "../css/tailwind.css";
+import "../css/main.css"
 
 function SideBar() {
 

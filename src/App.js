@@ -29,14 +29,14 @@ export default function App() {
 
         <form onChange = {onChange} className="text-center">
           <label className="text-gray-300 p-8">Shakespeare
-            <input type="radio" value="shakespeare" name="model"className="m-1" checked/> 
+            <input type="radio" value="clean_shakes_sonnets" name="model"className="m-1" checked/> 
           </label>
           <label className="text-gray-300 p-8">Dickinson
             <input type="radio" value="dickinson_fulltext" name="model"
             className="m-1" /> 
           </label>
           <label className="text-gray-300 p-8">TS Eliot
-            <input type="radio" value= "tseliot_fulltext" name="model" className="m-1"/> 
+            <input type="radio" value= "tseliot" name="model" className="m-1"/> 
           </label>
         </form>
           
