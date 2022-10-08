@@ -3,7 +3,7 @@ import './css/main.css'
 import './css/tailwind.css'
 
 // Lexical
-import {$createParagraphNode, $createTextNode, $getRoot, $getSelection, COMMAND_PRIORITY_HIGH, FOCUS_COMMAND, KEY_ENTER_COMMAND, LexicalEditor} from 'lexical';
+import {$createParagraphNode, $createTextNode, $getRoot, $getSelection, COMMAND_PRIORITY_HIGH, FOCUS_COMMAND, KEY_ENTER_COMMAND, KEY_TAB_COMMAND, LexicalEditor} from 'lexical';
 import {useRef, useEffect, useState } from 'react';
 import {ElementFormatType, LexicalCommand, TextFormatType} from 'lexical';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
@@ -17,6 +17,7 @@ import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import {useCharRNN} from "./plugins/charRNN"; //my bespoke charRNN hooks.
 
 import ml5 from 'ml5'; // Ml5 Library
+
 
 
 
@@ -158,6 +159,7 @@ function UpdatePlugin(props){
   
   const [seed, setSeed] = useState("")
   const[computerLine, setComputerLine] = useState(null) 
+  
    //Also note the syntax to 'read' the editor in the OnChange component.
   
   // setComputerLine(await useCharRNN(seed, props.model)); 
@@ -170,7 +172,7 @@ function UpdatePlugin(props){
       editor.update(()=> {
         const root = $getRoot();
         
-        //TODO: "Computer line"--> function chain to fetch words
+       
         // TODO including animation: https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
         //TODO: DRY this so p and q are added together
 
@@ -191,6 +193,23 @@ function UpdatePlugin(props){
 
   }
 
+  function redoLine() { //recreates the line on TAB
+    editor.update(()=> {
+      const root = $getRoot();
+      
+      console.log('root', root);
+      const lastParagraph = root.lastChild
+
+      // const paragraphs = document.getElementsByClassName("editor-paragraph ltr")
+      // console.log(paragraphs.length);
+      // const lastParagraph = paragraphs[paragraphs.length -1]
+      console.log(lastParagraph);
+      lastParagraph.remove()
+      
+    });
+ 
+  }
+
   useEffect(()=>{
     // async function  fetchData() {
     //   const res = await GetLine(seed, props.model)
@@ -200,6 +219,19 @@ function UpdatePlugin(props){
     // }
     // setComputerLine(fetchData()) //set the response as computerLine in 'state'
 
+    editor.registerCommand (
+      KEY_TAB_COMMAND,
+      (event) => {
+        if (!event.shiftKey){
+          event.preventDefault()  //this is preventing a new line
+          console.log('Tab has been pressed', event);
+          redoLine();
+          return true
+        } 
+        //TODO: normal tab operation
+        
+      }, COMMAND_PRIORITY_HIGH
+    )
 
     
      //you should be able to use this for a model AND fire off the 

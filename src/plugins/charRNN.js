@@ -20,7 +20,7 @@ async function useCharRNN (seed, model) {
           //options
           seed: seed,
           length: 50, //TODO variable (dat gui)
-          temperature: 0.4 //TODO: Variable (dat gui)
+          temperature: 0.5 //TODO: Variable (dat gui)
   
         //callback function
         }, (err, results) => {
