@@ -1,6 +1,7 @@
 //Redux
 import { useSelector, useDispatch } from 'react-redux'
 
+
 //For React Hooks
 import { useState, useEffect } from "react";
 
@@ -9,7 +10,7 @@ import { useState, useEffect } from "react";
 
 //CharRNN
 import {useCharRNN} from "./charRNN"; //my bespoke charRNN hooks.
-import { ml5 } from 'ml5';
+import ml5 from 'ml5';
 
 
 //TipTap
@@ -21,6 +22,8 @@ import Paragraph from '@tiptap/extension-paragraph';
 import Heading from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 
+
+//CSS
 import '../css/main.css'
 import '../css/tailwind.css'
 
@@ -32,20 +35,20 @@ const Computerline = Paragraph.extend({
         return {
           draggable: true,
           class: {
-            default: 'Test',
+            default: 'computerLine',
 
           },
         }
       }
-});
+}); //end ComputerLine
 
-let newSeed = "";
+
 
 //this is just a hook, so lets make it one
 //remember that it can also take arguments.
 const Canvas = () => {
   
-  //Redux globals
+  // Redux globals
   const model = useSelector( state => state.model);
   const seed = useSelector( state => state.seed);
   const AILine = useSelector( state => state.computerLine);
@@ -55,7 +58,16 @@ const Canvas = () => {
 
   //charRNN
   //TODO: this is firing every time the editor renders
-  useCharRNN()
+  const rnn = new ml5.charRNN(`./models/clean_poe`, modelLoaded);
+
+  
+
+  function modelLoaded(){
+    console.log('Model ready? ', rnn.ready)
+    if (rnn.ready){
+     console.log('Model is now ready');
+    }
+  } //modelLoaded
 
 
   //Define options for the text editor
@@ -69,81 +81,127 @@ const Canvas = () => {
       }),
       Computerline  //custom paragraphs
            .configure({
-        HTMLAttributes: {
-          class: 'lines ltr',
-        }
+          HTMLAttributes: {
+            class: 'lines ltr',
+          }
         }),
         
     ],
        
     onUpdate({editor}){ //detects the update
-           
+      editor.commands.focus()
           
-     },
-  }) //end editor
+     }
+  }); //end useEditor
+
   
-  function handleChange(e, editor, seed) {
-    //grabs all the <p> tags
+
+  function removeLines() {
+    
+    //get all of the paragraphs in the editor
     const text = document.getElementsByClassName("lines") 
-    if (e.code === 'Enter'){
-        //Adds a new line when enter is fired
-        e.preventDefault()
-        //TODO: We can put the below in a function, so both tab and enter will call it
-        console.log('This should show seed', seed)
-        newSeed = (text[text.length-2].innerText);
-        dispatch({type: 'seed/updated', payload: newSeed}) 
-        
+
+    //grab the second-to last one (the last computer line)
+    const lastLine = text[text.length-2]
+    //grab the parent Element
+    const parent = lastLine.parentNode
+    
+    //TODO: deal with the case where trhe lastline has no text
+    //Remove the blank line, the writing, and then fire add ComputerLine again
+    parent.removeChild(parent.lastChild);
+    parent.removeChild(parent.lastChild);
+    addComputerLine()
+      
+    };
+    
+
+  async function addComputerLine(){
+
+      //TODO: Loading here
+
+      //first we generate a new line.  
+      const response = await rnn.generate({ 
+        //options
+        seed: seed,
+        length: 50, //TODO variable (dat gui)
+        temperature: 0.5 //TODO: Variable (dat gui)
+
+      //callback function
+      }, (err, results) => {
+        console.log('Results or error',results, err);
+        console.log('Results',results.sample)
+        //todo: err message
         editor.commands.insertContent([
             {
                 type: 'paragraph',
                 content: [
                     {
                     type: 'text',
-                    text: AILine
+                    text: results.sample 
                     },
+                
                 ],
+                  
             },
             {
                 type: 'paragraph',
                     content: [
                     {
                     type: 'text',
-                    text: ' ',
+                    text:  ' '
                     },
                 ],
-            }
+            },
         
-        ]);
+          ]);  //insertContent
+          editor.focus();
+        } //callBack
+      ) //charRNN GENERATE
+    
+  };//end addComputerLine
+  
+  function handleChange(e, seed) {
+    //grabs all the <p> tags
+    const text = document.getElementsByClassName("lines") 
+    console.log(e.keyCode);
+    if (e.code === 'Enter'){
         
-          
-            
+        //TODO: We can put the below in a function, so both tab and enter will call it
+        console.log('This should show seed', seed)
+        const newSeed = (text[text.length-2].innerText);
+        dispatch({type: 'seed/updated', payload: newSeed}) 
+        addComputerLine()
+                   
             
     }
 
-    if (e.code === 'Tab'){ //Tab function removes previous suggestion and replaces it with a new one
-        e.preventDefault()
-        console.log('Now we have tab');
+    if (e.keyCode === 40){ //Tab function removes previous suggestion and replaces it with a new one
+      console.log('Now we have tab'); 
+      removeLines()
+           
+      const newSeed = (text[text.length-1].innerText);    
+      dispatch({type: 'seed/updated', payload: newSeed}) 
+      // setTimeout(() => addComputerLine(), 2000)
         
-        const select = text[text.length-1].parentNode
-        select.removeChild(select.lastChild);
-        select.removeChild(select.lastChild);
-    } 
-}
+       
+        
+    } //end TAB
+  } //end HandleChange
  
  
-  useEffect(()=>{
-    console.log('Hey, the seed has been changed');
-    if(seed.length === 0){
-      console.log("But I'm not doing anything yet because the seed is blank");
-    } else {
-      console.log('Okay, now we have a seed');
+  // useEffect(()=>{
+  //   console.log('Hey, the seed has been changed');
+  //   if(seed.length === 0){
+  //     console.log("But I'm not doing anything yet because the seed is blank");
+  //   } else {
+  //     console.log('Okay, now we have a seed');
       
-    }
+  //   }
     
-  }, [seed])
+  // }, [seed])
 
   return (
-    <div className="max-w-[100vw] mx-4 mt-8 mb-4">
+    <div className="max-w-[50vw] mx-4 mt-8 mb-4">
         <EditorContent editor={editor} onKeyDown={(e)=> handleChange(e, editor, seed)}/>
         
     </div>

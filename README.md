@@ -24,6 +24,10 @@ Complete Works model derived from: https://www.gutenberg.org/cache/epub/100/pg10
 
 Sonnets model derived from:  https://www.gutenberg.org/cache/epub/1041/pg1041.txt
 
+Edgar Allan Poe [link]
+
+
+**Experimental Models**
 
 TS Eliot [link]
 Model derived from 'The Wasteland' and 'Prufrock and other Observations': https://www.gutenberg.org/ebooks/author/599
@@ -56,7 +60,6 @@ This project is an example of a machine learning regression models in action. It
 
 ```
 
-
 The winds of spring
 — Would not straight the Clover — And how not and my Floods — And we and the 
 lost sought a new path where
@@ -67,8 +70,24 @@ The Wind abode — more there — And not for the Hills — The Summer — say �
 The Grave an Art of the sun To still the room.
 
 
+```
+
+Edgar Allen Poe
 
 ```
+   Where do they lie?
+   to be destruction of the contrary, which has
+   Never seen this
+   I cannot read!--the bowers of the breath and forever
+   litter a star which the beautiful bed light
+   lines. But the most spirit from the first thought
+   Cannot reach me.
+
+```
+
+**Some other notable lines:**
+
+"Ha! ha! ha! ha! ha! ha! ha! ha! ha! ha! ha! ha!" - Edgar Allan Poe
 
 ##  About / Tutorial: Training a model using CharRNN
 
@@ -115,6 +134,10 @@ The Grave an Art of the sun To still the room.
 - [x] Train the model using the text files.
 
    I used [this](https://www.gutenberg.org/ebooks/12242) version of Emily Dickinson's complete poems and created a new txt file, with everything but the poems removed.
+
+   To do this, you can use a script like this: 
+
+   (or just use the Regex search function inside VSCode)
 
    Check the size of your file--you want as much data as possible (but your training might take a while).
 
@@ -202,11 +225,13 @@ The Grave an Art of the sun To still the room.
 
 ## Wishlist / Future Additions
 
-- [] Allow the user to provide a title independent of the body of the work
-
 - [] Translate the project to Typescript
 
+- [] Further models, refining the current models
 
+## Known Bugs / TODO :bug:
+
+- [] Default seed needs to be set, to prevent gibberish being produced.
 
 ## Inspiration 
 
