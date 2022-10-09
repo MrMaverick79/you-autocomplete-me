@@ -1,12 +1,11 @@
 import "./css/main.css";
 import "./css/tailwind.css";
-import "./js/main"  //custom js
 
 import React from 'react';
 import Editor from './Editor';
 import { StrictMode, useState } from "react";
 import { SideBar  } from "./components/SideBar";
-import Tiptap from "./components/Tiptap";
+import Tiptap from "./components/Canvas";
 
 
 

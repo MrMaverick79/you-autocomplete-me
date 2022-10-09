@@ -1,0 +1,58 @@
+import {createStore} from 'redux';
+
+const initialState = {
+    model: 'shakespeare',
+    seed: "",
+    computerLine: "Default placeholder",
+    fullText: "" //might need to be an object
+}
+
+function reducer( state=initialState, action) {
+
+    switch (action.type){
+        
+        case "model/updated":
+            return{
+                ...state, 
+                model: action.payload
+            }
+               
+        //when the seed changes
+        case "seed/updated":
+            return{
+                ...state,
+                seed: action.payload
+            }
+        case "computerLine/updated":
+            return{
+                ...state,
+                computerLine: action.payload
+            }
+        case "fullText/updated":
+            return{
+                ...state,
+                fulltext: action.payload
+            }
+
+
+        default: 
+            console.log('No match found in store.js', action);
+            return state;
+    } //end switch  
+
+
+} //end reducer
+
+export const store = 
+    createStore(
+        reducer,
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__({ trace: true })
+    );
+
+    store.subscribe(()=> {
+
+        const state = store.getState();
+        //save to db, or local storage etc
+        // this is the place to trigger other methods.
+        //this needs to be outside the reducer.
+    });

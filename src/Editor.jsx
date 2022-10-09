@@ -2,23 +2,12 @@
 import './css/main.css'
 import './css/tailwind.css'
 
-// Lexical
-import {$createParagraphNode, $createTextNode, $getRoot, $getSelection, COMMAND_PRIORITY_HIGH, FOCUS_COMMAND, KEY_ENTER_COMMAND, KEY_TAB_COMMAND, LexicalEditor} from 'lexical';
-import {useRef, useEffect, useState } from 'react';
-import {ElementFormatType, LexicalCommand, TextFormatType} from 'lexical';
-import {LexicalComposer} from '@lexical/react/LexicalComposer';
-import {PlainTextPlugin} from '@lexical/react/LexicalPlainTextPlugin';
-import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
-import {ContentEditable} from '@lexical/react/LexicalContentEditable';
-import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
-import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {useCharRNN} from "./components/charRNN"; //my bespoke charRNN hooks.
 
 import ml5 from 'ml5'; // Ml5 Library
 
 
-
+/*
 
 //Lexical settings --> the full version
 //TODO: edit and trim these 
@@ -419,11 +408,12 @@ export default function Editor(props) {
       const root = $getRoot();
       console.log('Root', root)
     }; 
-
+*/
+/*
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className="editor-container">
-        {/* <ToolbarPlugin /> */}
+       
         <div className="editor-inner" id="detect_change">
           <RichTextPlugin 
             contentEditable={<ContentEditable />}
@@ -441,3 +431,4 @@ export default function Editor(props) {
     </LexicalComposer>
   );
 }
+*/
