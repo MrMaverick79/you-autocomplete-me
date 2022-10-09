@@ -6,6 +6,9 @@
 
 html{
     font-family: 'Libre', serif;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.8px;
 }
 
 body {
@@ -24,11 +27,7 @@ input[type='radio']{
 }
 
   
-  .App {
-    font-family: sans-serif;
-    text-align: center;
-  }
-  
+ 
   :focus{
     outline: 0 !important;
     
@@ -44,26 +43,6 @@ input[type='radio']{
 }
 
 /* Typing animation */
-/* .my-custom-paragraph  {
-  overflow: hidden; 
-  border-right: .15em solid orange; 
-  white-space: nowrap; 
-  margin: 0 auto; 
-  letter-spacing: .15em; 
-  animation: 
-    typing 3.5s steps(40, end),
-    blink-caret .75s step-end infinite;
-}
 
- The typing effect 
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
 
- The typewriter cursor effect 
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: orange; }
-} */
-  
+

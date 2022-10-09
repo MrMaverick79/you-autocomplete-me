@@ -5,20 +5,26 @@ import React from 'react';
 import Editor from './Editor';
 import { StrictMode, useState } from "react";
 import { SideBar  } from "./components/SideBar";
-import Tiptap from "./components/Canvas";
+import Canvas from "./components/Canvas";
 
-
+//Redux
+import { useSelector, useDispatch } from 'react-redux'
 
 
 
 export default function App() {
 
-  const [model, setModel] = useState("shakespeare") //default model
+  const model = useSelector( state => state.model);
+  const dispatch = useDispatch();
+ 
+
+
 
   function onChange( event){
-    setModel(event.target.value) //set the model from the radio buttons
+    
+    dispatch({type: 'model/updated', payload: event.target.value})
   }
-
+ 
 
   return (
     <div>
@@ -29,31 +35,29 @@ export default function App() {
 
         <form onChange = {onChange} className="text-center">
           <label className="text-gray-300 p-8">Shakespeare
-            <input type="radio" value="clean_shakes_sonnets" name="model"className="m-1" checked/> 
+            <input type="radio" value="clean_shakes_sonnets" name="model"className="m-1" /> 
           </label>
-          <label className="text-gray-300 p-8">Dickinson
-            <input type="radio" value="dickinson_fulltext" name="model"
+          <label className="text-gray-300 p-8">Emily Dickinson
+            <input type="radio" value="clean_dickinson" name="model"
             className="m-1" /> 
           </label>
-          <label className="text-gray-300 p-8">TS Eliot
-            <input type="radio" value= "tseliot" name="model" className="m-1"/> 
+          <label className="text-gray-300 p-8">Edgar Alan Poe
+            <input type="radio" value= "clean_poe" name="model" className="m-1"/> 
           </label>
         </form>
           
         
 
       </header>
-      <div className="absolute">
-        {/* <SideBar /> */}
+      <div className="absolute max-w-[20vw] mx-4 mt-8 mb-4">
+        <SideBar />
       </div>
       {/* SIDEBAR COMPONENT */}
       <div className="max-w-[100vw] mx-4 mt-8 mb-4">
         <StrictMode>
-         
-          <Tiptap 
-                model={model}
-              
-          /> 
+            
+            <Canvas/>
+
         </StrictMode>
       </div>
     </div>

@@ -6,8 +6,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useState, useEffect } from "react";
 
 
-
-
 //CharRNN
 import {useCharRNN} from "./charRNN"; //my bespoke charRNN hooks.
 import ml5 from 'ml5';
@@ -15,12 +13,12 @@ import ml5 from 'ml5';
 
 //TipTap
 import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Placeholder from '@tiptap/extension-placeholder';
+import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph';
-import Heading from '@tiptap/extension-paragraph';
-import Text from '@tiptap/extension-text';
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import Placeholder from '@tiptap/extension-placeholder';
+
 
 
 //CSS
@@ -58,7 +56,7 @@ const Canvas = () => {
 
   //charRNN
   //TODO: this is firing every time the editor renders
-  const rnn = new ml5.charRNN(`./models/clean_poe`, modelLoaded);
+  const rnn = new ml5.charRNN(`./models/${model}`, modelLoaded);
 
   
 
@@ -73,8 +71,9 @@ const Canvas = () => {
   //Define options for the text editor
   const editor = useEditor({
     extensions: [
-      StarterKit,
-   
+      Paragraph,
+      Document,
+      Text,
       Placeholder.configure({
         placeholder: "Write something beautiful and press enter"
         
@@ -87,6 +86,9 @@ const Canvas = () => {
         }),
         
     ],
+    autofocus: true,
+    editable: true,
+    injectCSS: false,
        
     onUpdate({editor}){ //detects the update
       editor.commands.focus()
@@ -175,8 +177,8 @@ const Canvas = () => {
             
     }
 
-    if (e.keyCode === 40){ //Tab function removes previous suggestion and replaces it with a new one
-      console.log('Now we have tab'); 
+    if (e.keyCode === 40){ //Use the down arrow function removes previous suggestion and replaces it with a new one
+      
       removeLines()
            
       const newSeed = (text[text.length-1].innerText);    

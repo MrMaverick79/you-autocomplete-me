@@ -1,10 +1,12 @@
 import {createStore} from 'redux';
 
 const initialState = {
-    model: 'shakespeare',
-    seed: "",
-    computerLine: "Default placeholder",
-    fullText: "" //might need to be an object
+    model: 'clean_shakes_sonnets',
+    seed: "write with me",
+    computerLine: "write with me",
+    fullText: "", //might need to be an object
+    temperature: 0.5, 
+    lineLength: 20
 }
 
 function reducer( state=initialState, action) {
@@ -17,7 +19,6 @@ function reducer( state=initialState, action) {
                 model: action.payload
             }
                
-        //when the seed changes
         case "seed/updated":
             return{
                 ...state,
@@ -33,8 +34,16 @@ function reducer( state=initialState, action) {
                 ...state,
                 fulltext: action.payload
             }
-
-
+        case "temperature/updated":
+            return{
+                ...state,
+                temperature: action.payload
+            }
+        case "lineLength/updated":
+            return{
+                ...state,
+                lineLength: action.payload
+            }
         default: 
             console.log('No match found in store.js', action);
             return state;
