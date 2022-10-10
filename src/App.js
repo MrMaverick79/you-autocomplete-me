@@ -38,7 +38,7 @@ export default function App() {
             <input type="radio" value="clean_shakes_sonnets" name="model"className="m-1" /> 
           </label>
           <label className="text-gray-300 p-8">Emily Dickinson
-            <input type="radio" value="clean_dickinson" name="model"
+            <input type="radio" value="dickinson_fulltext" name="model"
             className="m-1" /> 
           </label>
           <label className="text-gray-300 p-8">Edgar Alan Poe

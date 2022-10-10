@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily: {
-      'libre': ['"Libre Baskerville"', "serif"]
+      // 'libre': ['"Libre Baskerville"', "serif"],
+      'Taviraj' : ['"Taviraj"', 'serif']
     }
   },
   plugins: [],

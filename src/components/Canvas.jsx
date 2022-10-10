@@ -12,14 +12,16 @@ import ml5 from 'ml5';
 
 
 //TipTap
-import { useEditor, EditorContent } from '@tiptap/react';
-import { Editor } from '@tiptap/core'
+import { useEditor, EditorContent, FloatingMenu } from '@tiptap/react';
+// import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
+import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Placeholder from '@tiptap/extension-placeholder';
 import TextStyle from '@tiptap/extension-text-style'
 import { CustomParagraph } from './customparagraph.ts';
+import { CustomMenu } from './CustomMenu';
 
 
 //CSS
@@ -51,6 +53,7 @@ import '../css/tailwind.css'
 const Canvas = () => {
   
   //Component 
+  const [isEditable, setIsEditable] = useState(true) //TODO: remove?
   //Keep a record of whose line it is
   //Use this in the class name
   // const [whoseLine, setWhoseLine] = useState('human')
@@ -92,6 +95,7 @@ const Canvas = () => {
         
       }),
       Document,
+      Heading,
       CustomParagraph,
       TextStyle,
       Text,
@@ -108,14 +112,21 @@ const Canvas = () => {
     
        
     onUpdate({editor}){ //detects the update
-      editor.commands.focus()
+      editor.chain().focus().run()
       // const storeCheck = store.getState();
-      // console.log(storeCheck.whoseLine);
+      console.log(document.activeElement);
           
      }
   }); //end useEditor
 
-  
+
+
+ 
+  useEffect(() => {
+    if (editor) {
+      editor.setEditable(isEditable) //this could be used to only show floating menu on human lines
+    }
+  }, [isEditable, editor])
 
   function removeLines() {
     
@@ -196,10 +207,11 @@ const Canvas = () => {
   
   function handleChange(e, seed) {
     //grabs all the <p> tags
+    
     const text = document.getElementsByClassName("lines") 
     console.log(e.keyCode);
     if (e.code === 'Enter'){
-       
+      console.log('Document is active', document.activeElement);
         //TODO: We can put the below in a function, so both tab and enter will call it
         console.log('This should show seed', seed)
         const newSeed = (text[text.length-2].innerText);
@@ -235,7 +247,9 @@ const Canvas = () => {
   // }, [seed])
 
   return (
+    
     <div className="max-w-[50vw] mx-4 mt-8 mb-4">
+        <CustomMenu editor ={editor}/>  
         <EditorContent editor={editor} onKeyDown={(e)=> handleChange(e, editor, seed)}/>
         
     </div>

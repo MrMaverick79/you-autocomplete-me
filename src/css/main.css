@@ -3,18 +3,19 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Taviraj:ital,wght@0,100;0,300;0,700;1,100;1,300&display=swap');
 
 html{
-    font-family: 'Libre', serif;
+    font-family: 'Taviraj', serif;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 100;
     letter-spacing: 0.8px;
 }
 
 body {
     margin: 0;
     background: #eee;
-    font-family: 'Libre', serif;
+    font-family: 'Taviraj', serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -23,6 +24,7 @@ body {
   /* Radio buttons */
 input[type='radio']{
   accent-color: black;
+  opacity: 0.3;
 
 }
 
@@ -74,4 +76,9 @@ input[type='radio']{
       width: 0 
   }
 
+}
+
+/* Poem Heading */
+.ProseMirror h2{
+  font-size: 2em;
 }
