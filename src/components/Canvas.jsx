@@ -1,6 +1,6 @@
 //Redux
 import { useSelector, useDispatch } from 'react-redux'
-
+import store from '../redux/store';
 
 //For React Hooks
 import { useState, useEffect } from "react";
@@ -18,7 +18,8 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Placeholder from '@tiptap/extension-placeholder';
-
+import TextStyle from '@tiptap/extension-text-style'
+import { CustomParagraph } from './customparagraph.ts';
 
 
 //CSS
@@ -27,18 +28,21 @@ import '../css/tailwind.css'
 
 
 
-const Computerline = Paragraph.extend({
-    addAttributes() {
-        // Return an object with attribute configuration
-        return {
-          draggable: true,
-          class: {
-            default: 'computerLine',
+// const Computerline = Paragraph.extend({
+//     name: 'computerline',
+    
+  
+//     addAttributes() {
+//         // Return an object with attribute configuration
+//         return {
+//           draggable: true,
+//           class: {
+//             default: 'lines ltr computerLine',
 
-          },
-        }
-      }
-}); //end ComputerLine
+//           },
+//         }
+//       }
+// }); //end ComputerLine
 
 
 
@@ -46,19 +50,29 @@ const Computerline = Paragraph.extend({
 //remember that it can also take arguments.
 const Canvas = () => {
   
+  //Component 
+  //Keep a record of whose line it is
+  //Use this in the class name
+  // const [whoseLine, setWhoseLine] = useState('human')
+
   // Redux globals
   const model = useSelector( state => state.model);
   const seed = useSelector( state => state.seed);
-  const AILine = useSelector( state => state.computerLine);
+  const lineLength = useSelector( state => state.lineLength);
+  const temperature = useSelector( state => state.temperature);
+  const whoseLineIsItAnyway = useSelector( state => state.whoseLine);
   const fullText = useSelector( state => state.fullText);
   
   const dispatch = useDispatch();
 
   //charRNN
-  //TODO: this is firing every time the editor renders
+  //TODO: this is firing every time the editor renders\
+  //USEstaTE?
   const rnn = new ml5.charRNN(`./models/${model}`, modelLoaded);
 
-  
+ function getCurrentUser(){
+    return whoseLineIsItAnyway
+ }
 
   function modelLoaded(){
     console.log('Model ready? ', rnn.ready)
@@ -71,27 +85,32 @@ const Canvas = () => {
   //Define options for the text editor
   const editor = useEditor({
     extensions: [
-      Paragraph,
+      Paragraph.configure({
+        HTMLAttributes:{
+          class: `lines ${whoseLineIsItAnyway}` //class should change depending on author
+        }
+        
+      }),
       Document,
+      CustomParagraph,
+      TextStyle,
       Text,
       Placeholder.configure({
         placeholder: "Write something beautiful and press enter"
         
-      }),
-      Computerline  //custom paragraphs
-           .configure({
-          HTMLAttributes: {
-            class: 'lines ltr',
-          }
-        }),
-        
+      })  
     ],
     autofocus: true,
+    autocorrect: true,
+    spellcheck: false,
     editable: true,
     injectCSS: false,
+    
        
     onUpdate({editor}){ //detects the update
       editor.commands.focus()
+      // const storeCheck = store.getState();
+      // console.log(storeCheck.whoseLine);
           
      }
   }); //end useEditor
@@ -118,6 +137,10 @@ const Canvas = () => {
     
 
   async function addComputerLine(){
+      
+      //set the author to AI
+      dispatch({type: 'whoseLine/updated', payload:'computer'})
+     
 
       //TODO: Loading here
 
@@ -125,17 +148,22 @@ const Canvas = () => {
       const response = await rnn.generate({ 
         //options
         seed: seed,
-        length: 50, //TODO variable (dat gui)
-        temperature: 0.5 //TODO: Variable (dat gui)
+        length: lineLength, 
+        temperature: temperature 
 
       //callback function
       }, (err, results) => {
         console.log('Results or error',results, err);
         console.log('Results',results.sample)
         //todo: err message
-        editor.commands.insertContent([
+
+        
+        if(results){
+          
+          editor.commands.insertContent([
             {
                 type: 'paragraph',
+                
                 content: [
                     {
                     type: 'text',
@@ -143,7 +171,7 @@ const Canvas = () => {
                     },
                 
                 ],
-                  
+               
             },
             {
                 type: 'paragraph',
@@ -156,10 +184,16 @@ const Canvas = () => {
             },
         
           ]);  //insertContent
-          editor.focus();
+           
+        }
+
+       
+         
         } //callBack
       ) //charRNN GENERATE
-    
+
+      //return the author to human
+      dispatch({type: 'whoseLine/updated', payload:'human'})
   };//end addComputerLine
   
   function handleChange(e, seed) {
@@ -167,7 +201,7 @@ const Canvas = () => {
     const text = document.getElementsByClassName("lines") 
     console.log(e.keyCode);
     if (e.code === 'Enter'){
-        
+       
         //TODO: We can put the below in a function, so both tab and enter will call it
         console.log('This should show seed', seed)
         const newSeed = (text[text.length-2].innerText);

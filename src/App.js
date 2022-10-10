@@ -49,16 +49,22 @@ export default function App() {
         
 
       </header>
-      <div className="absolute max-w-[20vw] mx-4 mt-8 mb-4">
-        <SideBar />
-      </div>
-      {/* SIDEBAR COMPONENT */}
-      <div className="max-w-[100vw] mx-4 mt-8 mb-4">
-        <StrictMode>
-            
-            <Canvas/>
+      <div className="flex container">
 
-        </StrictMode>
+        <div className="items-center justify-center min-h-screen py-2 m">
+          <SideBar />
+        </div>
+        
+        <div className="flex min-w-[100vw] mx-4 mt-8 mb-4 justify-center ">
+          <StrictMode>
+              
+              <Canvas/>
+
+          </StrictMode>
+        </div>
+      
+
+
       </div>
     </div>
   );

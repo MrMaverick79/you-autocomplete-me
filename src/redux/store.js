@@ -4,6 +4,7 @@ const initialState = {
     model: 'clean_shakes_sonnets',
     seed: "write with me",
     computerLine: "write with me",
+    whoseLine: "human",
     fullText: "", //might need to be an object
     temperature: 0.5, 
     lineLength: 20
@@ -23,6 +24,14 @@ function reducer( state=initialState, action) {
             return{
                 ...state,
                 seed: action.payload
+            }
+
+        case "whoseLine/updated":
+            return{
+                ...state,
+                whoseLine: action.payload
+                    
+                
             }
         case "computerLine/updated":
             return{
@@ -65,3 +74,5 @@ export const store =
         // this is the place to trigger other methods.
         //this needs to be outside the reducer.
     });
+
+    export default store
