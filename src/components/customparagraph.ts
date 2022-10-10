@@ -15,6 +15,8 @@ declare module '@tiptap/core' {
   }
 }
 
+
+//modifying the deafult paragrpah node to allow extra options
 export const CustomParagraph = Node.create<ParagraphOptions>({
   name: 'customparagraph',
 
@@ -23,7 +25,7 @@ export const CustomParagraph = Node.create<ParagraphOptions>({
   addOptions() {
     return {
       HTMLAttributes: {
-        class: "custom"
+        class: "computer"
       },
     }
   },
@@ -35,6 +37,7 @@ export const CustomParagraph = Node.create<ParagraphOptions>({
   parseHTML() {
     return [
       { tag: 'p' },
+      { tag: 'em' },
     ]
   },
 

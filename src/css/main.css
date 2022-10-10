@@ -43,24 +43,31 @@ input[type='radio']{
 }
 
 /* Typing animation */
-/* p.lines:last-of-type  {
-  overflow: hidden; 
-  border-right: .15em solid #fff; 
-  white-space: nowrap;
+.computer {
   margin: 0 auto;
-  
-  animation: 
-    typing 3.5s steps(40, end);
-  
+  font-style: italic;
+} 
+
+
+
+/* .computer:nth-child(){
+  animation: typing 5s steps(22);
+  white-space: nowrap;
+  overflow: hidden;
+
+}  */
+
+
+.ProseMirror:last-of-type .computer p{
+  width: 100%;
+  animation: typing 3s steps(22);
+  white-space: nowrap;
+  overflow: hidden;
+  margin: 0 auto;
 }
 
-/* The typing effect 
+
 @keyframes typing {
-  from { width: 0 }
-  to { width: 100%; border-right: none }
+  from { width: 0; }
+ 
 }
-
- */
-
-
-

@@ -87,7 +87,7 @@ const Canvas = () => {
     extensions: [
       Paragraph.configure({
         HTMLAttributes:{
-          class: `lines ${whoseLineIsItAnyway}` //class should change depending on author
+          class: "lines" //class should change depending on author
         }
         
       }),
@@ -162,7 +162,7 @@ const Canvas = () => {
           
           editor.commands.insertContent([
             {
-                type: 'paragraph',
+                type: 'customparagraph',
                 
                 content: [
                     {
@@ -192,8 +192,6 @@ const Canvas = () => {
         } //callBack
       ) //charRNN GENERATE
 
-      //return the author to human
-      dispatch({type: 'whoseLine/updated', payload:'human'})
   };//end addComputerLine
   
   function handleChange(e, seed) {
@@ -215,7 +213,7 @@ const Canvas = () => {
       
       removeLines()
            
-      const newSeed = (text[text.length-1].innerText);    
+      const newSeed = (text[text.length-1].innerText + ' ');    
       dispatch({type: 'seed/updated', payload: newSeed}) 
       // setTimeout(() => addComputerLine(), 2000)
         

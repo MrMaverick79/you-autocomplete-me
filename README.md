@@ -219,7 +219,7 @@ Edgar Allen Poe
 
 - [] Create a front end to allow users to enter text,  and then have the model supply the next line
 
-   There are many rich text editors available, but this project makes use of Lexical, which has been recently released as open-source by Meta.
+   There are many rich text editors available, but this project makes use of [TipTap]()
 
 
 
@@ -231,7 +231,11 @@ Edgar Allen Poe
 
 ## Known Bugs / TODO :bug:
 
-- [] Default seed needs to be set, to prevent gibberish being produced.
+- [x] Default seed needs to be set, to prevent gibberish being produced.
+
+- [ ] Models still produces occasional strange output
+
+- [ ] Editor 'disapears' if the user focuses, types, deletes, and then moves away
 
 ## Inspiration 
 
