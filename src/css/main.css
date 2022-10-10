@@ -44,8 +44,7 @@ input[type='radio']{
 
 /* Typing animation */
 .computer {
-  margin: 0 auto;
-  font-style: italic;
+   font-style: italic;
 } 
 
 
@@ -57,17 +56,22 @@ input[type='radio']{
 
 }  */
 
-
-.ProseMirror:last-of-type .computer p{
+/* 
+.ProseMirror:last-of-type .computer p{ */
+ .computer:nth-last-child(2){
   width: 100%;
-  animation: typing 3s steps(22);
+  animation: typing 1s steps(20);
   white-space: nowrap;
   overflow: hidden;
   margin: 0 auto;
+  position: relative;
+
 }
 
 
 @keyframes typing {
-  from { width: 0; }
- 
+  from { 
+      width: 0 
+  }
+
 }

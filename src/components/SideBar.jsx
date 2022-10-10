@@ -47,9 +47,9 @@ function SideBar() {
                 
                 
                 <button
-                className="flex text-2xl text-white items-center cursor-pointer fixed left-10 top-6 z-50"
+                className="flex text-2xl items-center cursor-pointer fixed left-10 top-6 z-50"
                 onClick={() => setShowSidebar(!showSidebar)}
-                >X
+                ><img src='../x-solid.svg'className="w-4 opacity-10" ></img>  
                 
                 </button>
             ) : (
@@ -62,16 +62,23 @@ function SideBar() {
                 width="40"
                 height="40"
                 >
-                <rect width="100" height="10"></rect>
-                <rect y="30" width="100" height="10"></rect>
-                <rect y="60" width="100" height="10"></rect>
+                <rect width="80" height="10"></rect>
+                <rect y="30" width="80" height="10"></rect>
+                <rect y="60" width="80" height="10"></rect>
                 </svg>
             )}
-                <div className={`top-0 left-0 w-[35vw] bg-blue-600  p-10 pl-20 text-white fixed h-full z-40 ease-in-out duration-300 ${
+                <div className={`top-0 left-0 w-[25vw] bg-gray-500  p-10 pl-20 text-gray-200 fixed h-full z-40 ease-in-out duration-300 ${
             showSidebar ? "translate-x-0" : "translate-x-[-100%]"
                  }`}>
-            
+                
+                 <div className="inner container w-[80%]">
+                    <div className="instructions">
+                            <h3 className="text-lg">Instructions</h3>
+                            <img src='../enter-button.png'className="w-8"></img>   
 
+                    </div>
+
+                    
         
         
 
@@ -79,10 +86,10 @@ function SideBar() {
         
 
 
+                 <div className="option">
+                    <h3 className="text-lg">Options</h3>
 
-                <h3>Options</h3>
-
-                <p>Authors can be changed using the radio buttons under the main title</p>
+                    <p>Authors can be changed using the radio buttons under the main title</p>
 
 
             
@@ -123,13 +130,16 @@ function SideBar() {
                         </label>
                         
                         </div>
-                    
-                    <h4>About this project</h4>
-                    <p>This project uses the <a href="">ML5.js</a></p>
-                    <p>Inspired by <a href="">Selected Stories</a>by</p>
-                    
-                    <p>GitHub a link</p>
-
+                    </div>
+                    <div className="about">
+                        <h3 className="text-lg">About this project</h3>
+                        <p>This project uses the <a href="">ML5.js</a></p>
+                        <p>Inspired by <a href="">Selected Stories</a>by</p>
+                        
+                        <p>GitHub a link</p>
+                        <a href="https://github.com/ml5js/Code-of-Conduct">The ML5.js Code of Conduct</a>
+                        </div>
+                    </div>
                 </div>
         </>
         
