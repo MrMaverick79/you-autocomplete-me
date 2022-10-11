@@ -22,14 +22,20 @@ body {
 
 
   /* Radio buttons */
-input[type='radio']{
+/* input[type='radio'] */
+.radio {
   accent-color: black;
   opacity: 0.3;
+
+} 
+
+.radio:checked {
+    accent-color: rgb(255, 0, 51) !important;
 
 }
 
   
- 
+ /* Remove any borders from the canvas */
   :focus{
     outline: 0 !important;
     
@@ -42,6 +48,7 @@ input[type='radio']{
   color: #adb5bd;
   pointer-events: none;
   height: 0;
+  font-weight: 300;
 }
 
 /* Computer lines & Typing animation */
@@ -61,7 +68,7 @@ input[type='radio']{
 .ProseMirror:last-of-type .computer p{ */
  .computer:nth-last-child(2){
   width: 100%;
-  animation: typing 1s steps(20);
+  animation: typing 1s steps(40);
   white-space: nowrap;
   overflow: hidden;
   margin: 0 auto;
@@ -86,7 +93,7 @@ input[type='radio']{
 
 
 .menuAppear{
-  animation: appear s ease-in;
+  animation: appear 1s ease-in;
   height: fit-content;
   overflow: hidden;
   /* border: 1px solid #adb5bd; */

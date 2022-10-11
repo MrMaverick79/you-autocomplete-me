@@ -40,6 +40,27 @@ function SideBar() {
             localStorage.theme = 'dark'
                 :
             localStorage.theme = 'light'
+
+            
+            
+                if (localStorage.theme === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                }
+          
+                // if NOT set via local storage previously
+            
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                }
+            
      }  
 
 
@@ -63,8 +84,8 @@ function SideBar() {
                 <svg
                 onClick={() => setShowSidebar(!showSidebar)}
                 className="fixed  z-30 flex items-center cursor-pointer left-10 top-6 no-print"
-                fill="gray-300"
-                opacity="0.1"
+                fill= {localStorage.theme === 'light' ? "gray-300" : 'white' }
+                opacity="0.2"
                 viewBox="0 0 100 80"
                 width="40"
                 height="40"
@@ -124,7 +145,7 @@ function SideBar() {
                                
                                     <span data-bs-toggle="tooltip" title="The number of characters that will be suggested in an AI line"><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z" fill="rgba(196,196,196,1)"/></svg></span><p className="pl-3" > Line length: {lineLength}</p>            
                                 </div>
-                                    <input type="range" name="lineLength" min="1" max="100" onChange= {()=>{handleChange()}}  className="lineLength slider"/>
+                                    <input type="range" name="lineLength" min="1" max="100" value={lineLength} onChange= {()=>{handleChange()}}  className="lineLength slider"/>
                             </label>
                             
 

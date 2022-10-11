@@ -240,14 +240,14 @@ const Canvas = () => {
   } //end HandleChange
     //TODO: place a div with opacity 0.1 aND A LOADING GIF
    return (
-    <div className="max-w-[50vw] mx-4 mt-8 mb-4">
+    <div className="max-w-[50vw] mx-4 mt-8 mb-4 dark:text-white">
     {
-        isLoading ? (<div className="Loading relative text-center w-full h-full bg-white"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>) 
+        isLoading ? (<div className="Loading absolute w-[100vw] h-[100vh] bg-white dark:bg-slate-800 z-60"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>) 
         :
         null
       }
     
-         <CustomMenu editor ={editor}/>  
+        <CustomMenu editor ={editor}/>  
         <EditorContent  editor={editor} onKeyDown={(e)=> handleChange(e, editor, seed)}/>
        
         
