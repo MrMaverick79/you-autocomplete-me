@@ -4,10 +4,9 @@ const initialState = {
     model: 'clean_shakes_sonnets',
     seed: "write with me",
     computerLine: "write with me",
-    whoseLine: "human",
-    fullText: "", //might need to be an object
     temperature: 0.5, 
-    lineLength: 20
+    lineLength: 20, 
+    rnn: {} //the current rnn object
 }
 
 function reducer( state=initialState, action) {
@@ -25,23 +24,11 @@ function reducer( state=initialState, action) {
                 ...state,
                 seed: action.payload
             }
-
-        case "whoseLine/updated":
-            return{
-                ...state,
-                whoseLine: action.payload
-                    
-                
-            }
+     
         case "computerLine/updated":
             return{
                 ...state,
                 computerLine: action.payload
-            }
-        case "fullText/updated":
-            return{
-                ...state,
-                fulltext: action.payload
             }
         case "temperature/updated":
             return{
@@ -52,6 +39,11 @@ function reducer( state=initialState, action) {
             return{
                 ...state,
                 lineLength: action.payload
+            }
+        case "rnn/updated":
+            return{
+                ...state,
+                rnn: action.payload
             }
         default: 
             console.log('No match found in store.js', action);

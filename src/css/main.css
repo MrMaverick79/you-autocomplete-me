@@ -26,18 +26,15 @@ body {
 .radio {
   accent-color: black;
   opacity: 0.3;
-
 } 
 
 .radio:checked {
     accent-color: rgb(0, 153, 255) !important;
 
 }
-
 input[type=radio]:checked ~ label{
   color: #424443;
 }
-
 .dark input[type=radio]:checked ~ label{
   color:rgba(0, 153, 255, 0.7) ;
 }
@@ -45,7 +42,6 @@ input[type=radio]:checked ~ label{
  /* Remove any borders from the canvas */
   :focus{
     outline: 0 !important;
-    
   }
 
   /* Placeholder (at the top) */
@@ -63,7 +59,6 @@ input[type=radio]:checked ~ label{
    font-style: italic;
 } 
 
-
 /* .computer:nth-child(){
   animation: typing 5s steps(22);
   white-space: nowrap;
@@ -71,8 +66,6 @@ input[type=radio]:checked ~ label{
 
 }  */
 
-/* 
-.ProseMirror:last-of-type .computer p{ */
  .computer:nth-last-child(2){
   width: 100%;
   animation: typing 1s steps(40);
@@ -82,7 +75,6 @@ input[type=radio]:checked ~ label{
   position: relative;
 
 }
-
 
 @keyframes typing {
   from { 
@@ -98,15 +90,12 @@ input[type=radio]:checked ~ label{
 }
 
 
-
 .menuAppear{
   animation: appear 1s ease-in;
   height: fit-content;
   overflow: hidden;
   /* border: 1px solid #adb5bd; */
-
-  
-  /* transition: height 0.75s; */
+  transition: height 0.5s;
 }
 
 @keyframes appear {
@@ -119,13 +108,14 @@ input[type=radio]:checked ~ label{
 }
 
 /* Print */
+/* You can set elements as class: no-print so they don't appear on the final print 
+changing the margin hides the filepath, date etc, which are inserted by the browser.
+*/
 @media print
 {    
     .no-print, .no-print *
     {
-        display: none !important;
-        
-        
+        display: none !important; 
     }
 
     @page { margin: 0; };

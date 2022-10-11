@@ -1,15 +1,9 @@
 //Redux
 import { useSelector, useDispatch } from 'react-redux'
 
-
 //For React Hooks
 import { useState } from "react";
 import React from 'react';
-
-//CharRNN
-
-import ml5 from 'ml5';
-
 
 //TipTap
 import { useEditor, EditorContent } from '@tiptap/react';
@@ -22,69 +16,24 @@ import TextStyle from '@tiptap/extension-text-style'
 import { CustomParagraph } from './customparagraph.ts';
 import { CustomMenu } from './CustomMenu';
 
-
 //CSS
 import '../css/main.css'
 import '../css/tailwind.css'
 
-
-
-// const Computerline = Paragraph.extend({
-//     name: 'computerline',
-    
-  
-//     addAttributes() {
-//         // Return an object with attribute configuration
-//         return {
-//           draggable: true,
-//           class: {
-//             default: 'lines ltr computerLine',
-
-//           },
-//         }
-//       }
-// }); //end ComputerLine
-
-
-
-//this is just a hook, so lets make it one
-//remember that it can also take arguments.
+//The 'canvas'-- the editor for writing on.
 const Canvas = () => {
   
   //Component 
-  const [isEditable, setIsEditable] = useState(true) //TODO: remove?
   const [isLoading, setIsLoading] = useState(false);
- 
-  //Keep a record of whose line it is
-  //Use this in the class name
-  // const [whoseLine, setWhoseLine] = useState('human')
 
-  // Redux globals
-  const model = useSelector( state => state.model);
+  // Redux globals and functions
+  const rnn =useSelector( state => state.rnn)
   const seed = useSelector( state => state.seed);
   const lineLength = useSelector( state => state.lineLength);
   const temperature = useSelector( state => state.temperature);
-  // const whoseLineIsItAnyway = useSelector( state => state.whoseLine);
-  const fullText = useSelector( state => state.fullText);
-  
   const dispatch = useDispatch();
 
-  //charRNN
-  //TODO: this is firing every time the editor renders\
-  ///This could be loaded in App and then passed here through props/ Redux
-  const rnn = new ml5.charRNN(`./models/${model}`, modelLoaded);
-
- 
-
-  function modelLoaded(){
-    console.log('Model ready? ', rnn.ready)
-    if (rnn.ready){
-     console.log('Model is now ready');
-    }
-  } //modelLoaded
-
-
-  //Define options for the text editor
+  //Define options for the tiptap editor
   const editor = useEditor({
     extensions: [
       Paragraph.configure({
@@ -95,11 +44,11 @@ const Canvas = () => {
       }),
       Document,
       Heading,
-      CustomParagraph,
+      CustomParagraph, //this has a class of computer
       TextStyle,
       Text,
       Placeholder.configure({
-        placeholder: "Write something beautiful and press enter"
+        placeholder: "Write something beautiful and press enter..."
         
       })  
     ],
@@ -110,10 +59,8 @@ const Canvas = () => {
     injectCSS: true,
     
        
-    onUpdate({editor}){ //detects the update
+    onUpdate({editor}){ //detects any update and focuses the cursor
       editor.chain().focus().run()
-      // const storeCheck = store.getState();
-      console.log(document.activeElement);
           
      }
   }); //end useEditor
@@ -141,18 +88,9 @@ const Canvas = () => {
     
 
   async function addComputerLine(){
-      
-      //setLoading
-     
-
-
-
-      //set the author to AI
-      dispatch({type: 'whoseLine/updated', payload:'computer'})
-     
-
+      editor.setEditable(false); //switch of typing
       //first we generate a new line.  
-      const response = await rnn.generate({ 
+      await rnn.generate({ 
         //options
         seed: seed,
         length: lineLength, 
@@ -160,13 +98,10 @@ const Canvas = () => {
 
       //callback function
       }, (err, results) => {
-        console.log('Results or error',results, err);
-        console.log('Results',results.sample)
-        //todo: err message
-
-        
+        // console.log('Results or error',results, err);
         if(results){
-          
+           //insert two new lines-- the computer line and a new line for 
+           //the user to type into 
           editor.commands.insertContent([
             {
                 type: 'customparagraph',
@@ -191,53 +126,43 @@ const Canvas = () => {
             },
         
           ]);  //insertContent
-           setIsLoading(false)
+           setIsLoading(false); //end loading 
+           editor.setEditable(true); //switch editing back on after line insertion
+        } else {
+          console.log('Error inserting lines', err);
+          editor.setEditable(true);
         }
 
-        
-       
-         
         } //callBack
       ) //charRNN GENERATE
-      editor.chain().focus().run()
+      editor.chain().focus().run() //focus back on editor
   };//end addComputerLine
   
-  function handleChange(e, seed) {
+  function handleChange(e) {
     //grabs all the <p> tags
-    
     const text = document.getElementsByClassName("lines") 
-    console.log('vent', e);
-    if (e.code === 'Enter'  && e.shiftKey){ //insert a new blank line useng shift + enter
-        editor.commands.insertContent('<p> <p>')
+    if (e.code === 'Enter'  && e.shiftKey){ //insert a new blank line using shift + enter
+        editor.commands.insertContent('<p> <p>') //TODO: make this the proper human paragraph to avoid issues
         return
     }
     if (e.code === 'Enter'){
-    
         setIsLoading(true)
-        console.log('Document is active', document.activeElement);
-        //TODO: We can put the below in a function, so both tab and enter will call it
-        console.log('This should show seed', seed)
         const newSeed = (text[text.length-2].innerText);
         dispatch({type: 'seed/updated', payload: newSeed}) 
         addComputerLine()
-        
-            
     }
 
     if (e.key === 'Tab'){ //Use the down arrow function removes previous suggestion and replaces it with a new one
-      e.preventDefault() //prevnt tabbing
+      e.preventDefault() //prevent tabbing out
       setIsLoading(true)
       removeLines() //remove lines then calls addComputerLine
-      
       //bump the seed
       const newSeed = (text[text.length-1].innerText + ' ');    
-      dispatch({type: 'seed/updated', payload: newSeed}) 
-            
-       
+      dispatch({type: 'seed/updated', payload: newSeed})      
         
     } //end TAB
   } //end HandleChange
-    //TODO: place a div with opacity 0.1 aND A LOADING GIF
+    
    return (
     <div className="max-w-[50vw] mx-4 mt-8 mb-4 dark:text-white">
     {
@@ -248,8 +173,6 @@ const Canvas = () => {
     
         <CustomMenu editor ={editor}/>  
         <EditorContent  editor={editor} onKeyDown={(e)=> handleChange(e, editor, seed)}/>
-       
-        
     </div>
         
   )

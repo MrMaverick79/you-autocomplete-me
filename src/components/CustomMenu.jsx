@@ -1,28 +1,19 @@
-
+//CSS
+import '../css/main.css'
+import '../css/tailwind.css'
+//React Hooks
+import { useState } from "react";
 //CSS
 import '../css/main.css'
 import '../css/tailwind.css'
 
-//For React Hooks
-import { useState, useRef } from "react";
-
-//for printing to .pdf
-import ReactToPrint from 'react-to-print';
-
-
-//CSS
-import '../css/main.css'
-import '../css/tailwind.css'
-
-
-
+//The floating menu attached to the text for Headings, Clearing, and Printing
 export function CustomMenu (props){
     
-
     const[menuVisible, setMenuVisible] = useState(false) //show or hide the menu
     const editor = props.editor //the tiptap editor and its related methods
 
-    const insertTitle = () =>{
+    const insertTitle = () =>{ //insert a title at position 0
         editor.commands.insertContentAt(0, '<h2>Give your piece a title</h2>', {
             updateSelection: true,
             parseOptions: {
@@ -35,11 +26,11 @@ export function CustomMenu (props){
         menuVisible ? setMenuVisible(false) : setMenuVisible(true)
     }
 
-    const resetEditor = () => {
+    const resetEditor = () => {  //clear the text completely
         editor.chain().clearContent().focus().run();
     }
 
-    const exportText = () => {
+    const exportText = () => { //print or save to .pdf
        window.print()
     }
 
@@ -69,5 +60,4 @@ export function CustomMenu (props){
     )   
 
 
-
-}
+}; //CustomMenu

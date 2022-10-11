@@ -3,7 +3,7 @@ import "./css/tailwind.css";
 
 //React
 import React from 'react';
-import { StrictMode } from "react";
+import { StrictMode, useEffect } from "react";
 
 //Components
 import { SideBar  } from "./components/SideBar";
@@ -12,11 +12,16 @@ import Canvas from "./components/Canvas";
 //Redux
 import { useSelector, useDispatch } from 'react-redux'
 
+//Ml5
+//CharRNN
+import ml5 from 'ml5';
+
 //Main template page
 export default function App() {
 
   //Redux--store the current model as selected by the radio buttons
   const model = useSelector( state => state.model);
+  const rnn = useSelector( state => state.rnn )
   const dispatch = useDispatch();
 
   //update the model when a new selection is made
@@ -24,6 +29,19 @@ export default function App() {
     // console.log(event.target)
     dispatch({type: 'model/updated', payload: event.target.value})
   }
+
+  useEffect(() => {
+    const rnn = new ml5.charRNN(`./models/${model}`, modelLoaded);
+    dispatch({type: 'rnn/updated', payload: rnn})
+  
+  }, [model]); //useEffect whenever the model is chnaged
+  
+  function modelLoaded(){
+    console.log('Model ready from App? ', rnn.ready)
+    if (rnn.ready){
+     console.log('Model is now ready');
+    }
+  } //modelLoaded
 
   return (
     <div>
@@ -63,11 +81,11 @@ export default function App() {
         
         <div className="flex min-w-[100vw] mx-4 mt-8 mb-4 justify-center ">
           <StrictMode>
-              <Canvas/>
+              <Canvas />
           </StrictMode>
         </div>
 
       </div>
     </div>
   );
-}
+}  //App.js
