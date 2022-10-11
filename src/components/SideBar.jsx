@@ -47,7 +47,7 @@ function SideBar() {
                 
                 
                 <button
-                className="flex text-2xl items-center cursor-pointer fixed left-10 top-6 z-50"
+                className="flex text-2xl items-center cursor-pointer fixed left-10 top-6 z-50 no-print"
                 onClick={() => setShowSidebar(!showSidebar)}
                 ><img src='../x-solid.svg'className="w-4 opacity-10" ></img>  
                 
@@ -55,7 +55,7 @@ function SideBar() {
             ) : (
                 <svg
                 onClick={() => setShowSidebar(!showSidebar)}
-                className="fixed  z-30 flex items-center cursor-pointer left-10 top-6"
+                className="fixed  z-30 flex items-center cursor-pointer left-10 top-6 no-print"
                 fill="gray-300"
                 opacity="0.1"
                 viewBox="0 0 100 80"
@@ -67,7 +67,7 @@ function SideBar() {
                 <rect y="60" width="80" height="10"></rect>
                 </svg>
             )}
-                <div className={`top-0 left-0 w-[25vw] bg-gray-500  p-10 pl-20 text-gray-200 fixed h-full z-40 ease-in-out duration-300 ${
+                <div className={`top-0 left-0 w-[25vw] bg-gray-500  p-10 pl-20 text-gray-200 fixed h-full z-40 ease-in-out duration-300 no-print ${
             showSidebar ? "translate-x-0" : "translate-x-[-100%]"
                  }`}>
                 

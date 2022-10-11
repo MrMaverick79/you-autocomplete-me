@@ -219,7 +219,7 @@ Edgar Allen Poe
 
 - [] Create a front end to allow users to enter text,  and then have the model supply the next line
 
-   There are many rich text editors available, but this project makes use of [TipTap]()
+   There are many rich text editors available, but this project makes use of [TipTap](https://tiptap.dev/), a headless Rich Text editor that is built on 
 
 
 
@@ -229,13 +229,15 @@ Edgar Allen Poe
 
 - [] Further models, refining the current models
 
+- [] "Rhyme mode" using API
+
 ## Known Bugs / TODO :bug:
 
-- [x] Default seed needs to be set, to prevent gibberish being produced.
+~~Default seed needs to be set, to prevent gibberish being produced.~~
 
 - [ ] Models still produces occasional strange output
 
-- [ ] Editor 'disapears' if the user focuses, types, deletes, and then moves away
+~~Editor 'disappears' if the user focuses, types, deletes, and then moves away~~
 
 ## Inspiration 
 
@@ -246,18 +248,21 @@ Edgar Allen Poe
 
 ## Resources and tutorials:
 
-[Python virtualenv on ArchLinux](https://wiki.archlinux.org/title/Python/Virtual_environment)
 
 [ML5.js Library](https://learn.ml5js.org/#/)
 
-[Project Gutenberg](https://www.gutenberg.org/)
-
-[Working with Lexical](https://github.com/facebook/lexical)
-
 [CharNNN Library from ML5](https://learn.ml5js.org/#/reference/charrnn)
 
-[Creating a VirtualEnv to run the Python needed to train a model](https://www.youtube.com/watch?v=nnhjvHYRsmM)
+[Creating a VirtualEnv to run the Python environment needed to train a model](https://www.youtube.com/watch?v=nnhjvHYRsmM)
 
 [Training a CharNNN using the model in ml5.js](https://github.com/ml5js/training-charRNN)
 
+[Project Gutenberg](https://www.gutenberg.org/): a collection of classic books, available in .txt
+
+[Working with TipTap](https://tiptap.dev/)
+
 [Text Generation with LTSM and Spell](https://www.youtube.com/watch?v=xfuVcfwtEyw)
+
+[Excellent collection of loading icons](https://loading.io/css/)
+
+[Other Icons](https://remixicon.com/)

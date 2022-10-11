@@ -4,7 +4,7 @@ import store from '../redux/store';
 
 //For React Hooks
 import { useState, useEffect } from "react";
-
+import React from 'react';
 
 //CharRNN
 import {useCharRNN} from "./charRNN"; //my bespoke charRNN hooks.
@@ -54,6 +54,8 @@ const Canvas = () => {
   
   //Component 
   const [isEditable, setIsEditable] = useState(true) //TODO: remove?
+  const [isLoading, setIsLoading] = useState(false);
+ 
   //Keep a record of whose line it is
   //Use this in the class name
   // const [whoseLine, setWhoseLine] = useState('human')
@@ -63,19 +65,17 @@ const Canvas = () => {
   const seed = useSelector( state => state.seed);
   const lineLength = useSelector( state => state.lineLength);
   const temperature = useSelector( state => state.temperature);
-  const whoseLineIsItAnyway = useSelector( state => state.whoseLine);
+  // const whoseLineIsItAnyway = useSelector( state => state.whoseLine);
   const fullText = useSelector( state => state.fullText);
   
   const dispatch = useDispatch();
 
   //charRNN
   //TODO: this is firing every time the editor renders\
-  //USEstaTE?
+  ///This could be loaded in App and then passed here through props/ Redux
   const rnn = new ml5.charRNN(`./models/${model}`, modelLoaded);
 
- function getCurrentUser(){
-    return whoseLineIsItAnyway
- }
+ 
 
   function modelLoaded(){
     console.log('Model ready? ', rnn.ready)
@@ -108,7 +108,7 @@ const Canvas = () => {
     autocorrect: true,
     spellcheck: false,
     editable: true,
-    injectCSS: false,
+    injectCSS: true,
     
        
     onUpdate({editor}){ //detects the update
@@ -118,17 +118,11 @@ const Canvas = () => {
           
      }
   }); //end useEditor
-
-
-
  
-  useEffect(() => {
-    if (editor) {
-      editor.setEditable(isEditable) //this could be used to only show floating menu on human lines
-    }
-  }, [isEditable, editor])
+
 
   function removeLines() {
+    //Deletes the previous computer line so that a new addition can be made.
     
     //get all of the paragraphs in the editor
     const text = document.getElementsByClassName("lines") 
@@ -149,11 +143,14 @@ const Canvas = () => {
 
   async function addComputerLine(){
       
+      //setLoading
+     
+
+
+
       //set the author to AI
       dispatch({type: 'whoseLine/updated', payload:'computer'})
      
-
-      //TODO: Loading here
 
       //first we generate a new line.  
       const response = await rnn.generate({ 
@@ -195,66 +192,67 @@ const Canvas = () => {
             },
         
           ]);  //insertContent
-           
+           setIsLoading(false)
         }
 
+        
        
          
         } //callBack
       ) //charRNN GENERATE
-
+      editor.chain().focus().run()
   };//end addComputerLine
   
   function handleChange(e, seed) {
     //grabs all the <p> tags
     
     const text = document.getElementsByClassName("lines") 
-    console.log(e.keyCode);
+    console.log('vent', e);
+    if (e.code === 'Enter'  && e.shiftKey){ //insert a new blank line useng shift + enter
+        editor.commands.insertContent('<p> <p>')
+        return
+    }
     if (e.code === 'Enter'){
-      console.log('Document is active', document.activeElement);
+    
+        setIsLoading(true)
+        console.log('Document is active', document.activeElement);
         //TODO: We can put the below in a function, so both tab and enter will call it
         console.log('This should show seed', seed)
         const newSeed = (text[text.length-2].innerText);
         dispatch({type: 'seed/updated', payload: newSeed}) 
         addComputerLine()
-                   
+        
             
     }
 
-    if (e.keyCode === 40){ //Use the down arrow function removes previous suggestion and replaces it with a new one
+    if (e.key === 'Tab'){ //Use the down arrow function removes previous suggestion and replaces it with a new one
+      e.preventDefault() //prevnt tabbing
+      setIsLoading(true)
+      removeLines() //remove lines then calls addComputerLine
       
-      removeLines()
-           
+      //bump the seed
       const newSeed = (text[text.length-1].innerText + ' ');    
       dispatch({type: 'seed/updated', payload: newSeed}) 
-      // setTimeout(() => addComputerLine(), 2000)
-        
+            
        
         
     } //end TAB
   } //end HandleChange
- 
- 
-  // useEffect(()=>{
-  //   console.log('Hey, the seed has been changed');
-  //   if(seed.length === 0){
-  //     console.log("But I'm not doing anything yet because the seed is blank");
-  //   } else {
-  //     console.log('Okay, now we have a seed');
-      
-  //   }
-    
-  // }, [seed])
-
-  return (
-    
+    //TODO: place a div with opacity 0.1 aND A LOADING GIF
+   return (
     <div className="max-w-[50vw] mx-4 mt-8 mb-4">
-        <CustomMenu editor ={editor}/>  
-        <EditorContent editor={editor} onKeyDown={(e)=> handleChange(e, editor, seed)}/>
+    {
+        isLoading ? (<div className="Loading relative text-center w-full h-full bg-white"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>) 
+        :
+        null
+      }
+    
+         <CustomMenu editor ={editor}/>  
+        <EditorContent  editor={editor} onKeyDown={(e)=> handleChange(e, editor, seed)}/>
+       
         
     </div>
         
   )
 }
-
 export default Canvas

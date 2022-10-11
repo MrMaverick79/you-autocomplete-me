@@ -44,11 +44,10 @@ input[type='radio']{
   height: 0;
 }
 
-/* Typing animation */
+/* Computer lines & Typing animation */
 .computer {
    font-style: italic;
 } 
-
 
 
 /* .computer:nth-child(){
@@ -80,5 +79,79 @@ input[type='radio']{
 
 /* Poem Heading */
 .ProseMirror h2{
-  font-size: 2em;
+  font-size: 1.5em;
+  font-weight: 300;
+}
+
+
+
+.menuAppear{
+  animation: appear s ease-in;
+  height: fit-content;
+  overflow: hidden;
+  /* border: 1px solid #adb5bd; */
+
+  
+  /* transition: height 0.75s; */
+}
+
+@keyframes appear {
+  from{
+    height: 0;
+  }
+  to {
+    height: 50vh;
+  }
+}
+
+/* Print */
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+        
+        
+    }
+
+    @page { margin: 0; };
+}
+
+/*Loading*/
+/* Thanks to: https://loading.io/css/ */
+
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid #C4C4C4;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #C4C4C4 transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
