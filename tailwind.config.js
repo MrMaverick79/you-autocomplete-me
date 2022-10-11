@@ -8,5 +8,6 @@ module.exports = {
       'Taviraj' : ['"Taviraj"', 'serif']
     }
   },
+  darkMode: 'class',
   plugins: [],
 }

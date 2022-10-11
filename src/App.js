@@ -27,8 +27,8 @@ export default function App() {
  
 
   return (
-    <div>
-      <header>
+    <div class="dark">
+      <header className=" bg-white dark:bg-slate-800">
           <h1 className="text-gray-900 font-bold text-center mt-5 text-xl italic">
             you (auto)complete me
           </h1>
@@ -38,7 +38,7 @@ export default function App() {
             <input type="radio" value="clean_shakes_sonnets" name="model"className="m-1" /> 
           </label>
           <label className="text-gray-300 p-8">Emily Dickinson
-            <input type="radio" value="dickinson_fulltext" name="model"
+            <input type="radio" value="clean_dickinson" name="model"
             className="m-1" /> 
           </label>
           <label className="text-gray-300 p-8">Edgar Alan Poe
