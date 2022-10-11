@@ -1,19 +1,18 @@
 //Redux
 import { useSelector, useDispatch } from 'react-redux'
-import store from '../redux/store';
+
 
 //For React Hooks
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import React from 'react';
 
 //CharRNN
-import {useCharRNN} from "./charRNN"; //my bespoke charRNN hooks.
+
 import ml5 from 'ml5';
 
 
 //TipTap
-import { useEditor, EditorContent, FloatingMenu } from '@tiptap/react';
-// import { Editor } from '@tiptap/core'
+import { useEditor, EditorContent } from '@tiptap/react';
 import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'

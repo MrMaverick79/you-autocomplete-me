@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Fragment } from "react";
+
 
 import "../css/tailwind.css";
 import "../css/main.css"
@@ -7,7 +7,12 @@ import "../css/sidebar.css"
 
 //REDUX
 import { useSelector, useDispatch } from 'react-redux'
-import { FontAwesomeIcon  }  from "@fortawesome/react-fontawesome";
+
+//images
+import EnterKeyImg from '../img/enter-key.png'
+import ShiftKeyImage from '../img/shift-mac.png'
+import TabKeyImg from '../img/tab-mac.png'
+import XIcon from '../img/x-solid.svg'
 
 /*Acknowledgements:
 * Thanks to https://blog.avneesh.tech/create-an-animated-sidebar-with-tailwindcss-in-react
@@ -17,6 +22,9 @@ import { FontAwesomeIcon  }  from "@fortawesome/react-fontawesome";
 function SideBar() {
     //show SideBar or not
     const [showSidebar, setShowSidebar] = useState(false);
+    const [lightToggle, setLightToggle] = useState(
+        localStorage.theme === 'dark' ? true : false
+    )
 
     //Redux globals 
     const model = useSelector( state => state.model);
@@ -35,49 +43,44 @@ function SideBar() {
 
      function lightsOut(){
         console.log('Lights switched');
-        const toggleSwitch = document.querySelector('#toggleA')
-        toggleSwitch.checked ? 
-            localStorage.theme = 'dark'
-                :
-            localStorage.theme = 'light'
-
-            
-            
-                if (localStorage.theme === 'light') {
-                    document.documentElement.classList.add('dark');
-                    localStorage.theme = 'dark';
-                } else {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.theme = 'light';
-                }
+        // const toggleSwitch = document.querySelector('#toggleA')
+                              
+        if (localStorage.theme === 'light') {
+                setLightToggle(true)
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+        } else {
+                setLightToggle(false)
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+        }
           
-                // if NOT set via local storage previously
+            // if NOT set via local storage previously
             
-                if (document.documentElement.classList.contains('dark')) {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.theme = 'light';
-                } else {
-                    document.documentElement.classList.add('dark');
-                    localStorage.theme = 'dark';
-                }
+            // if (document.documentElement.classList.contains('dark')) {
+            //     document.documentElement.classList.remove('dark');
+            //         // localStorage.theme = 'light';
+            // } else {
+            //         document.documentElement.classList.add('dark');
+
+            // }
             
      }  
 
-
+   
     return(
         
-            
-
     
-
-    <>
+    // This <> is a fragment--a nice workaround for situations like 
+    // this one where we want to have nothing until we show the sidebar
+    <> 
             {showSidebar ? (
                 
                 
                 <button
                 className="flex text-2xl items-center cursor-pointer fixed left-10 top-6 z-50 no-print"
                 onClick={() => setShowSidebar(!showSidebar)}
-                ><img src='../x-solid.svg'className="w-4 opacity-10" ></img>  
+                ><img src={XIcon}className="w-4 opacity-10" ></img>  
                 
                 </button>
             ) : (
@@ -105,18 +108,18 @@ function SideBar() {
                             <div className="instructionalImages inline-flex p-8 text-center">
 
                                 <figure className="pr-2">
-                                    <img src='../enter-key.png'className="w-8"/> 
+                                    <img src={EnterKeyImg} className="w-8 mb-1" /> 
                                     <figcaption  className="text-sm w-12 mr-6">AI line</figcaption>
                                 </figure>
                                 <figure className="pr-2">
-                                    <img src='../tab-mac.png'className="w-8"></img>    
+                                    <img src={TabKeyImg}className="w-8 mb-1"></img>    
                                     <figcaption className="text-sm w-10 mr-6">Redo line</figcaption>
                                 </figure>
                                 <figure className="w-10 pr-2">
                                     <div className="inline-flex">
-                                        <img src='../shift-mac.png'className="w-8"></img> 
+                                        <img src={ShiftKeyImage}className="w-8 mb-1"></img> 
                                         +      
-                                        <img src='../enter-key.png'className="w-8"></img>
+                                        <img src={EnterKeyImg}className="w-8 mb-1"></img>
                                     </div>  
                                     <figcaption className="text-sm w-20">Create blank line</figcaption>
                                 </figure>
@@ -174,7 +177,7 @@ function SideBar() {
                                 
                                 <div class="relative">
                             
-                                <input id="toggleA" type="checkbox" class="sr-only" onClick={()=>lightsOut()}/>
+                                <input id="toggleA" type="checkbox" class="sr-only" onClick={()=>lightsOut()} checked={lightToggle}/>
                             
                                 <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
                                 

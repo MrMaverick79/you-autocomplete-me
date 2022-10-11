@@ -1,60 +1,61 @@
 import "./css/main.css";
 import "./css/tailwind.css";
 
+//React
 import React from 'react';
-import Editor from './Editor';
-import { StrictMode, useState } from "react";
+import { StrictMode } from "react";
+
+//Components
 import { SideBar  } from "./components/SideBar";
 import Canvas from "./components/Canvas";
 
 //Redux
 import { useSelector, useDispatch } from 'react-redux'
 
-
-
+//Main template page
 export default function App() {
 
+  //Redux--store the current model as selected by the radio buttons
   const model = useSelector( state => state.model);
   const dispatch = useDispatch();
 
-
-
-
-
+  //update the model when a new selection is made
   function onChange( event){
-    console.log(event.target)
+    // console.log(event.target)
     dispatch({type: 'model/updated', payload: event.target.value})
   }
-
-  function isChecked(){
-      return "checked";
-  }
- 
 
   return (
     <div>
       <header className="bg-white dark:bg-slate-800">
-          <h1 className="text-gray-900 font-bold text-center mt-5 text-xl italic mb-4 dark:text-white">
+        <h1 className="text-gray-900  font-bold text-center mt-5 text-2xl italic mb-4 dark:text-white">
             you (auto)complete me
-          </h1>
+        </h1>
 
-        <form onChange = {onChange} className="text-center">
-          <label className="text-gray-400 font-light p-8">Shakespeare
-            <input type="radio" value="clean_shakes_sonnets" name="model"className="radio m-1" checked={model==="clean_shakes_sonnets"?  'yes' : ""}/> 
-          </label>
-          <label className="text-gray-400 font-light p-8">Emily Dickinson
-            <input type="radio" value="clean_dickinson" name="model"
-            className="radio m-1" checked={model==="clean_dickinson"?  'yes' : ""}/> 
-          </label>
-          <label className="text-gray-400 font-light p-8">Edgar Alan Poe
-            <input type="radio" value= "clean_poe" name="model" className="radio m-1" checked={model==="clean_poe"?  'yes' : ""}/> 
-          </label>
-        </form>
-          
-        
+        <form onChange = {onChange} className="text-center flex justify-center ">
+            <div>
+              <input type="radio" value="clean_shakes_sonnets" name="model"className="radio m-1" checked={model==="clean_shakes_sonnets"?  'yes' : ""}/> 
+              <label className="text-gray-400 font-light p-2 dark:text-white">Shakespeare
+              </label>
+            </div>
 
+            <div>
+              <input type="radio" value="clean_dickinson" name="model"
+              className="radio m-1" checked={model==="clean_dickinson"?  'yes' : ""}/> 
+              <label className="text-gray-400 font-light p-2 dark:text-white">Emily Dickinson
+              </label>
+            </div>
+
+            <div>
+              <input type="radio" value= "clean_poe" name="model" className="radio m-1" checked={model==="clean_poe"?  'yes' : ""}/> 
+              <label className="text-gray-400 font-light p-2 dark:text-white">Edgar Alan Poe
+              </label>
+            </div>
+
+        </form>  
       </header>
-      <div className="flex container">
+
+      <div className="flex container main">
 
         <div className="items-center justify-center min-h-screen py-2 m">
           <SideBar />
@@ -62,13 +63,9 @@ export default function App() {
         
         <div className="flex min-w-[100vw] mx-4 mt-8 mb-4 justify-center ">
           <StrictMode>
-              
               <Canvas/>
-
           </StrictMode>
         </div>
-      
-
 
       </div>
     </div>

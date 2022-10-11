@@ -1,5 +1,7 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 
+//This component takes the original paragrapgh from the tiptap library and modifies it slightly, creating a new node so that wer can differentiate between human written lines and computer written lines.
+
 export interface ParagraphOptions {
   HTMLAttributes: Record<string, any>,
 }

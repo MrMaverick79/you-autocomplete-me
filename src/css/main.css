@@ -30,10 +30,17 @@ body {
 } 
 
 .radio:checked {
-    accent-color: rgb(255, 0, 51) !important;
+    accent-color: rgb(0, 153, 255) !important;
 
 }
 
+input[type=radio]:checked ~ label{
+  color: #424443;
+}
+
+.dark input[type=radio]:checked ~ label{
+  color:rgba(0, 153, 255, 0.7) ;
+}
   
  /* Remove any borders from the canvas */
   :focus{

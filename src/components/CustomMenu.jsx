@@ -3,33 +3,11 @@
 import '../css/main.css'
 import '../css/tailwind.css'
 
-
-//Redux
-import { useSelector, useDispatch } from 'react-redux'
-import store from '../redux/store';
-
 //For React Hooks
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 
 //for printing to .pdf
 import ReactToPrint from 'react-to-print';
-import Canvas from './Canvas';
-
-
-//CharRNN
-import {useCharRNN} from "./charRNN"; //my bespoke charRNN hooks.
-import ml5 from 'ml5';
-
-
-//TipTap
-import { useEditor, EditorContent, FloatingMenu } from '@tiptap/react';
-// import { Editor } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import Placeholder from '@tiptap/extension-placeholder';
-import TextStyle from '@tiptap/extension-text-style'
-import { CustomParagraph } from './customparagraph.ts';
 
 
 //CSS
@@ -39,13 +17,10 @@ import '../css/tailwind.css'
 
 
 export function CustomMenu (props){
-    console.log({Canvas});
-    //printing
-    const componentRef = useRef();
+    
 
     const[menuVisible, setMenuVisible] = useState(false) //show or hide the menu
-    
-    const editor = props.editor
+    const editor = props.editor //the tiptap editor and its related methods
 
     const insertTitle = () =>{
         editor.commands.insertContentAt(0, '<h2>Give your piece a title</h2>', {
