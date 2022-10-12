@@ -32,31 +32,20 @@ This project is an example of a machine learning regression models in action.
 
 From the ml5 documentation: 
 
-```
-   RNN and LSTMs (Long Short Term Memory networks) are a type of Neural Network architecture useful for working with sequential data (like characters in text or the musical notes of a song) where the order of the that sequence matters. This class allows you run a model pre-trained on a body of text to generate new text.
-```
+>   RNN and LSTMs (Long Short Term Memory networks) are a type of Neural Network architecture useful for working with sequential data (like characters in text or the musical notes of a song) where the order of the that sequence matters. This class allows you run a model pre-trained on a body of text to generate new text.
+
 
  This project uses the ML5  CharRNN library to suggest poetry in the style of Emily Dickinson, Edgar Allan Poe and William Shakespeare.
 
- The user input is passed into models that have been trained using Tensorflow, and then the model generates a sample that would be probable based on their learnign and the input.
-
-    This is my letter to the world,
-       That never wrote to me, --
-    The simple news that Nature told,
-       With tender majesty.
-
-    Her message is committed
-       To hands I cannot see;
-    For love of her, sweet countrymen,
-       Judge tenderly of me!
-
+ The user input is passed into models that have been trained using Tensorflow, and then the model generates a sample that would be probable based on the learning and the input.
 
 
 **Sample Works**
 
+Below are some examples of the human / model writing in action.
 
 
-Emily Dickinson
+Emily Dickinson Model
 
 ```
 
@@ -72,7 +61,7 @@ The Grave an Art of the sun To still the room.
 
 ```
 
-Edgar Allan Poe
+Edgar Allan Poe Model
 
 ```
    Where do they lie?
@@ -85,8 +74,9 @@ Edgar Allan Poe
 
 ```
 
-William Shakespeare
+William Shakespeare Model
 
+```
    **Not So Sonnet**
 
    My mistresses' cpu is nothing like the sun,
@@ -103,59 +93,60 @@ William Shakespeare
 
    yours.
 
+```
+
 **Some other notable lines:**
 
-"Ha! ha! ha! ha! ha! ha! ha! ha! ha! ha! ha! ha!" - Edgar Allan Poe
+>"Ha! ha! ha! ha! ha! ha! ha! ha! ha! ha! ha! ha!" - Edgar Allan Poe
 
 ##  About / Tutorial: Training a model using CharRNN
 
    Follow these steps to train your own model. 
 
-1.  Develop an environment.
+1.  **Develop an environment.**
 
-    Training a model with the CharRNN library requires access to tensorflow, which in turn requires some pretty simple Python scripting. The instructions for how to do this can also be found in the [github for the CharRNN library](). 
+Training a model with the CharRNN library requires access to tensorflow, which in turn requires some pretty simple Python scripting. The instructions for how to do this can also be found in the [github for the CharRNN library](). 
     
-    Be sure to use Python 3.6 as per the instructions. 
+Be sure to use Python 3.6 as per the instructions. 
 
-    To prepare the environnment:
+To prepare the environnment:
 
-    Check which versions of Python you have using 
+Check which versions of Python you have using 
 
     `$ python --version`
 
-    You might need to download Python 3.6 for your OS.
+You might need to download Python 3.6 for your OS.
 
-       
-   Also ensure that you have installed `pip`, which is the package manager for Python.
+Also ensure that you have installed `pip`, which is the package manager for Python.
 
-   We are going to use `pip` and `python 3.6` to set up a virtual environment on our machine, so that it does not interfere with any local Python on our machine.
+We are going to use `pip` and `python 3.6` to set up a virtual environment on our machine, so that it does not interfere with any local Python on our machine.
 
-   I used [virtualenv](https://virtualenv.pypa.io/en/latest/) to set up my Python virtual environment, but `venv` should also work.
+I used [virtualenv](https://virtualenv.pypa.io/en/latest/) to set up my Python virtual environment, but `venv` should also work.
 
-   To install virtualenv open the console and use
+To install virtualenv open the console and use
 
    `pip install virtualenv`
 
-   Once we have virtualenv, we can create an environment using 
+Once we have virtualenv, we can create an environment using 
 
    `virtualenv -p python3.6 YOUR_ENV_NAME_HERE`
 
-   It doesn't really matter where you create your environment, but you might like to keep it seperate from any final projects (like a front-end to dispaly the output), as you will be cloning a repo into this environment. You can copy the models produced in this environment easily. 
+It doesn't really matter where you create your environment, but you might like to keep it seperate from any final projects (like a front-end to dispaly the output), as you will be cloning a repo into this environment. You can copy the models produced in this environment easily. 
 
-   The environment is now created. 
+The environment is now created. 
 
-   We have to activate this new environment with
+We have to activate this new environment with
 
     `source YOUR_ENV_NAME_HERE/bin/activate`
     
-   You should now see that your terminal is in a new Python sub terminal, and your machine is ready to learn.
+You should now see that your terminal is in a new Python sub terminal, and your machine is ready to learn.
      
 
-2.  Train the model using the text files.
+   2.  **Train the model using the text files.**
 
-   I used [this](https://www.gutenberg.org/ebooks/12242) version of Emily Dickinson's complete poems and created a new txt file, with everything but the poems removed.
+I used [this](https://www.gutenberg.org/ebooks/12242) version of Emily Dickinson's complete poems and created a new txt file, with everything but the poems removed.
 
-   To do this, you can use a script like this: 
+To do this, you can use a script like this: 
 
    ```python
       # -*- coding: utf-8 -*-
@@ -199,15 +190,15 @@ William Shakespeare
 
 
    ```
-   You can run this program by saving the above, and the using: 
+You can run this program by saving the above, and the using: 
 
    `python THIS_FILE_NAME.py SOURCE.TXT DESTINATION.TXT`
 
-   (or just use the Regex search function inside VSCode to find the elements oyu want to remove)
+(or just use the Regex search function inside VSCode to find the elements oyu want to remove)
 
-   Check the size of your file--you want as much data as possible (but your training might take a while).
+Check the size of your file--you want as much data as possible (but your training might take a while).
 
-   The next set of instructions are as per the github instructions for training a model. 
+ The next set of instructions are as per the github instructions for training a model. 
 
    ```bash
 
@@ -218,21 +209,21 @@ William Shakespeare
 
    ```
 
-   Depending on the size of your text file, you might like to set some [hyperparameters](https://github.com/ml5js/training-charRNN#hyperparameters). The size of your file will also impact the speed of the training -- my Dickinson and Eliot training took about a minute, while the original Shakespeare full text I tried using was scheduled to run for 14 hours.
+Depending on the size of your text file, you might like to set some [hyperparameters](https://github.com/ml5js/training-charRNN#hyperparameters). The size of your file will also impact the speed of the training -- my Dickinson and Eliot training took about a minute, while the original Shakespeare full text I tried using was scheduled to run for 14 hours.
 
-   Once the training is complete, you can find the models you made in the `models/` folder. You'll need to copy the entire thing into your project so you can access them.
+Once the training is complete, you can find the models you made in the `models/` folder. You'll need to copy the entire thing into your project so you can access them.
 
          
 
-3. Generate predictions using the model
+   **3. Generate predictions using the model**
    
-   NB: Using the ml5 library from localhost results in CORS errors. You might notice that if ou try to create a basic HTML template and then try to run your page, you will get a 404 error in the console.
+NB: Using the ml5 library from localhost results in CORS errors. You might notice that if ou try to create a basic HTML template and then try to run your page, you will get a 404 error in the console.
 
-   To avoid this, one solution is to run this project as a live server. I used **Live Server**, which is available as an extension with VS Code.
+To avoid this, one solution is to run this project as a live server. I used **Live Server**, which is available as an extension with VS Code.
 
-   In React placing the models into the `public` folder helped to overcome the same issues.
+In React placing the models into the `public` folder helped to overcome the same issues.
 
-   To see your model in action, you can create a basic HTML file using this boiler plate from ml5:
+To see your model in action, you can create a basic HTML file using this boiler plate from ml5:
       
    ``` html
          <!DOCTYPE html>
@@ -253,9 +244,9 @@ William Shakespeare
          </html>
    ```
       
-   The instructions on the [ml5](https://learn.ml5js.org/#/reference/charrnn) site are excellent and clear, and I'm simply reproducing them here.
+The instructions on the [ml5](https://learn.ml5js.org/#/reference/charrnn) site are excellent and clear, and I'm simply reproducing them here.
 
-   Once you have the basic HTML in place, you can add the following to the `<script>` tags:
+Once you have the basic HTML in place, you can add the following to the `<script>` tags:
 
    ```javascript
 
@@ -274,24 +265,26 @@ William Shakespeare
 
    ```
 
-   Just be sure that you correctly point  `charRNN()` to the path where you have the models.
+Just be sure that you correctly point  `charRNN()` to the path where you have the models.
 
-   And that is it! If you open the console, you should firstly see that the Ml5 library is connected. Then you will return an object with a key `sample`, which is has been generated from your model!
+And that is it! If you open the console, you should firstly see that the Ml5 library is connected. Then you will return an object with a key `sample`, which is has been generated from your model!
 
 
-4.  Create a front end to allow users to enter text,  and then have the model supply the next line
+   **4.  Create a front end to allow users to enter text.**
 
-   There are many rich text editors available, but this project makes use of [TipTap](https://tiptap.dev/), a headless Rich Text editor that is built on ProseMirror. The editor inserts new lines each time the user requests a suggestion, and includes the ability toadd titles and print the finished piece.
+There are many rich text editors available, but this project makes use of [TipTap](https://tiptap.dev/), a headless Rich Text editor that is built on ProseMirror. The editor inserts new lines each time the user requests a suggestion, and includes the ability toadd titles and print the finished piece.
+
+This could also be done with a simple HTML textarea.
 
 
 
 ## Wishlist / Future Additions
 
--[ ] Translate the project to Typescript
+-[] Translate the project to Typescript
 
--[ ] Further models, refining the current models
+-[] Further models, refining the current models
 
--[ ] "Rhyme mode" using API
+-[] "Rhyme mode" using API
 
 ## Known Bugs :bug:
 
@@ -330,3 +323,18 @@ Models still produces occasional strange output, but hey--it is just a machine.
 [Excellent collection of loading icons](https://loading.io/css/)
 
 [Other Icons](https://remixicon.com/)
+
+## Let Emily Have the Last Word ##
+
+
+    This is my letter to the world,
+       That never wrote to me, --
+    The simple news that Nature told,
+       With tender majesty.
+
+    Her message is committed
+       To hands I cannot see;
+    For love of her, sweet countrymen,
+       Judge tenderly of me!
+
+   -Emily Dickinson
