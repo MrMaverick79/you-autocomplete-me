@@ -190,11 +190,11 @@ To do this, you can use a script like this:
 
 
    ```
-You can run this program by saving the above, and the using: 
+You can run this program by saving the above, and start it with: 
 
    `python THIS_FILE_NAME.py SOURCE.TXT DESTINATION.TXT`
 
-(or just use the Regex search function inside VSCode to find the elements oyu want to remove)
+(or just use the Regex search function inside VSCode to find the elements you want to remove)
 
 Check the size of your file--you want as much data as possible (but your training might take a while).
 
@@ -217,11 +217,11 @@ Once the training is complete, you can find the models you made in the `models/`
 
    **3. Generate predictions using the model**
    
-NB: Using the ml5 library from localhost results in CORS errors. You might notice that if ou try to create a basic HTML template and then try to run your page, you will get a 404 error in the console.
+NB: Using the ml5 library from localhost results in CORS errors. You might notice that if you try to create a basic HTML template and then try to run your page, you will get a 404 error in the console.
 
 To avoid this, one solution is to run this project as a live server. I used **Live Server**, which is available as an extension with VS Code.
 
-In React placing the models into the `public` folder helped to overcome the same issues.
+In React, placing the models into the `public` folder helped to overcome the same issues.
 
 To see your model in action, you can create a basic HTML file using this boiler plate from ml5:
       
@@ -280,11 +280,11 @@ This could also be done with a simple HTML textarea.
 
 ## Wishlist / Future Additions
 
--[] Translate the project to Typescript
+- [ ] Translate the project to Typescript
 
--[] Further models, refining the current models
+- [ ] Further models, refining the current models
 
--[] "Rhyme mode" using API
+- [ ] "Rhyme mode" using API
 
 ## Known Bugs :bug:
 
