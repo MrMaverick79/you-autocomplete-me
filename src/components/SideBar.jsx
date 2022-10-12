@@ -85,26 +85,26 @@ function SideBar() { //the concertina sidebar menu
                 <rect y="60" width="80" height="10"></rect>
                 </svg>
             )}
-                <div className={`top-0 left-0 w-[25vw] bg-gray-500  p-10 pl-20 text-gray-200 fixed h-full z-40 ease-in-out duration-300 no-print ${
+                <div className={`top-0 left-0 w-[25vw] bg-gray-500  p-10 pl-20 text-gray-200 fixed h-screen z-40 ease-in-out duration-300 no-print ${
                 showSidebar ? "translate-x-0" : "translate-x-[-100%]"
                  }`}>
                 
-                 <div className="inner container w-[80%] h-90">
+                 <div className="inner container w-[80%] h-[95%]">
                     <div className="instructions">
-                            <h3 className="text-lg mt-10">Keys</h3>
-                            <div className="instructionalImages inline-flex p-8 text-center">
+                            <h3 className="text-lg mt-2">Keys</h3>
+                            <div className="instructionalImages inline-flex p-4 text-center">
 
-                                <figure className="pr-2">
+                                <figure >
                                     <img src={EnterKeyImg} className="w-8 mb-1" alt="enter key icon" /> 
-                                    <figcaption  className="text-sm w-12 mr-6">AI line</figcaption>
+                                    <figcaption  className="text-sm w-12 mr-4">AI line</figcaption>
                                 </figure>
 
-                                <figure className="pr-2">
+                                <figure>
                                     <img src={TabKeyImg}className="w-8 mb-1" alt="tab key icon"></img>    
-                                    <figcaption className="text-sm w-10 mr-6">Redo line</figcaption>
+                                    <figcaption className="text-sm w-10 mr-4">Redo line</figcaption>
                                 </figure>
 
-                                <figure className="w-10 pr-2">
+                                <figure className="w-10">
                                     <div className="inline-flex">
                                         <img src={ShiftKeyImage}className="w-8 mb-1" alt="shift key icon"></img> 
                                         +      
@@ -118,7 +118,7 @@ function SideBar() { //the concertina sidebar menu
                     </div>
 
                  <div className="option">
-                    <h3 className="text-lg pb-8">Options</h3>    
+                    <h3 className="text-lg pb-4">Options</h3>    
 
                     <div className="selections flex-col p-2">
                         
@@ -127,7 +127,7 @@ function SideBar() { //the concertina sidebar menu
                                
                                     <span data-bs-toggle="tooltip" title="The number of characters that will be suggested in an AI generated line"><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z" fill="rgba(196,196,196,1)"/></svg></span><p className="pl-3" > Line length: {lineLength}</p>            
                                 </div>
-                                    <input type="range" name="lineLength" min="1" max="100" value={lineLength} onChange= {()=>{handleChange()}}  className="lineLength slider"/>
+                                    <input type="range" name="lineLength" min="1" max="100" value={lineLength} onChange= {()=>{handleChange()}}  className="lineLength slider w-[80%]"/>
                             </label>
                             
 
@@ -138,7 +138,7 @@ function SideBar() { //the concertina sidebar menu
                                     <span data-bs-toggle="tooltip" title="The 'randomness' of the model: 
                                     lower numbers are repetitive but close to the original text; higher numbers are more chaotic."><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z" fill="rgba(196,196,196,1)"/></svg></span><p className="pl-3">Temperature: {temperature} </p>
                                 </div>           
-                                <input type="range" name="temperature" min="0.0" max="1.0"  value={temperature} className="temperature slider" onChange= {()=>{handleChange()}}  step="0.1" />
+                                <input type="range" name="temperature" min="0.0" max="1.0"  value={temperature} className="temperature slider w-[80%]" onChange= {()=>{handleChange()}}  step="0.1" />
                         </label>
                     </div>
 
@@ -169,10 +169,9 @@ function SideBar() { //the concertina sidebar menu
                         </div>
                     </div>
                     <div className="about">
-                        <h3 className="text-lg pb-8">About this project</h3>
-                        <p className="text-sm  mb-4">This project uses the <a href="https://ml5js.org/" className="text-blue-400" target="_blank" rel="noreferrer">Ml5.js</a> machine learning library to generate lines in the style of famous poets, based on the lines supplied by the user.</p>
+                        <h3 className="text-lg pb-2">About this project</h3>
+                        <p className="text-sm  mb-2">This project uses the <a href="https://ml5js.org/" className="text-blue-400" target="_blank" rel="noreferrer">Ml5.js</a> machine learning library to generate lines in the style of famous poets, based on the lines supplied by the user.</p>
                         <p  className="text-sm mb-4">Inspired by <a href="https://cvalenzuela.github.io/Selected_Stories/" className="text-blue-400" target="_blank" rel="noreferrer">Selected Stories.</a></p>
-                        
                         
                         <p  className="text-sm">This project tries to abide by the <a href="https://github.com/ml5js/Code-of-Conduct"className="text-blue-400" target="_blank" rel="noreferrer"> ML5.js Code of Conduct</a> </p>
                         </div>

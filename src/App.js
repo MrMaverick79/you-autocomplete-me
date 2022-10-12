@@ -66,7 +66,7 @@ export default function App() {
 
             <div>
               <input type="radio" value= "clean_poe" name="model" className="radio m-1" checked={model==="clean_poe"?  'yes' : ""}/> 
-              <label className="text-gray-400 font-light p-2 dark:text-white">Edgar Alan Poe
+              <label className="text-gray-400 font-light p-2 dark:text-white">Edgar Allan Poe
               </label>
             </div>
            
