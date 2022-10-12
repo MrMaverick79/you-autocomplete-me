@@ -27,13 +27,14 @@ export const CustomParagraph = Node.create<ParagraphOptions>({
   addOptions() {
     return {
       HTMLAttributes: {
-        class: "computer"
+        class: "computer lines"
       },
+      autocomplete: 'on',
     }
   },
 
   group: 'block',
-
+  
   content: 'inline*',
 
   parseHTML() {

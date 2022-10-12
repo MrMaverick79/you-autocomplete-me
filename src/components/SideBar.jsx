@@ -68,7 +68,7 @@ function SideBar() { //the concertina sidebar menu
                 <button
                 className="flex text-2xl items-center cursor-pointer fixed left-10 top-6 z-50 no-print"
                 onClick={() => setShowSidebar(!showSidebar)}
-                ><img src={XIcon}className="w-4 opacity-10" alt="close icon" ></img>  
+                ><img src={XIcon}className="w-5 opacity-20" alt="close icon" ></img>  
                 </button>
             ) : (
                 <svg
@@ -91,7 +91,7 @@ function SideBar() { //the concertina sidebar menu
                 
                  <div className="inner container w-[80%]">
                     <div className="instructions">
-                            <h3 className="text-lg">Keys</h3>
+                            <h3 className="text-lg mt-10">Keys</h3>
                             <div className="instructionalImages inline-flex p-8 text-center">
 
                                 <figure className="pr-2">

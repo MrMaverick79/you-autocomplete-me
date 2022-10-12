@@ -5,7 +5,7 @@ const initialState = {
     seed: "write with me",
     computerLine: "write with me",
     temperature: 0.5, 
-    lineLength: 20, 
+    lineLength: 30, 
     rnn: {} //the current rnn object
 }
 

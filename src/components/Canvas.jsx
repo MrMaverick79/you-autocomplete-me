@@ -38,7 +38,7 @@ const Canvas = () => {
     extensions: [
       Paragraph.configure({
         HTMLAttributes:{
-          class: "lines" //class should change depending on author
+          class: "human lines" //class should change depending on author
         }
         
       }),
@@ -58,41 +58,78 @@ const Canvas = () => {
     editable: true,
     injectCSS: true,
     
-       
-    onUpdate({editor}){ //detects any update and focuses the cursor
-      editor.chain().focus().run()
-          
+    onUpdate({editor}){ //detects any update to the editor and focuses the cursor
+      editor.chain().focus().run() 
      }
   }); //end useEditor
  
-
-
-  function removeLines() {
-    //Deletes the previous computer line so that a new addition can be made.
+  function getLastElementWithText(collection){ //a helper function to identify the last user line that has text. Returns an Element
     
-    //get all of the paragraphs in the editor
-    const text = document.getElementsByClassName("lines") 
-
-    //grab the second-to last one (the last computer line)
-    const lastLine = text[text.length-2]
-    //grab the parent Element
-    const parent = lastLine.parentNode
+    let lineArray = Array.from(collection);
     
-    //TODO: deal with the case where trhe lastline has no text
-    //Remove the blank line, the writing, and then fire add ComputerLine again
-    parent.removeChild(parent.lastChild);
-    parent.removeChild(parent.lastChild);
-    addComputerLine()
+    for (let i = lineArray.length; i > 0; i--){
+      const element = lineArray.pop();
+      if (element.innerText.trim() !== ""){
+        return element
+      }
+
+    }
+    // console.log('No element found, returning element at position 0');
+    return collection[0]
+  };  //end getLastElement
+    
+
+   function removeLines() {
+    return new Promise((resolve, reject) => {
+
+      //Deletes the previous computer line so that a new addition can be made.
+      const computerLines = document.querySelectorAll(".computer")
+      const humanLines = document.querySelectorAll(".human")
+      if(computerLines.length === 0){
+        return //do nothing when the computer has not generated a line
+      }
+      //Always has to remove the last computer line, so that it can be replaced with a new suggestion
+      const lastComputerLine = computerLines[computerLines.length-1];
+      lastComputerLine.parentElement.removeChild(lastComputerLine);
+      
+      //remove the last human line when it is blank. Does not have to remove all the blank lines, as the user may have inserted some themselves purposely. 
+      
+      const lastHumanLine = humanLines[humanLines.length-1];
+      if(lastHumanLine.innerText.trim().length === 0){
+        lastHumanLine.parentElement.removeChild(lastHumanLine);
+      }
+
+      resolve()
+    })
+    
       
     };
-    
 
-  async function addComputerLine(){
-      editor.setEditable(false); //switch of typing
-      //first we generate a new line.  
-      await rnn.generate({ 
+  function updateSeed(){
+    return new Promise((resolve, reject) => {
+      //grabs all the <p> tags
+       const allHumanLines = document.getElementsByClassName("human") //all the current human
+      //Grab the last line that has been written by the human and make this the seed for the generator --i.e so the computer esponds to the human input
+      const newSeed = getLastElementWithText(allHumanLines);    
+      resolve(newSeed.innerText)
+     
+     
+    })
+    
+  };  //end updateSeed
+    
+  async function addComputerLine(){ //adding a computerLine
+    
+    setIsLoading(true) //start loading icon
+    editor.setEditable(false); //switch off typing while the computer generates a line
+    const updatedSeed = await updateSeed() //grab the last line with text in it
+    dispatch({type: 'seed/updated', payload: updatedSeed })
+
+    
+      //generat a new line using charRNN
+    await rnn.generate({ 
         //options
-        seed: seed,
+        seed: updatedSeed,
         length: lineLength, 
         temperature: temperature 
 
@@ -135,38 +172,46 @@ const Canvas = () => {
 
         } //callBack
       ) //charRNN GENERATE
-      editor.chain().focus().run() //focus back on editor
+    editor.chain().focus().run() //focus back on editor
+    
+
   };//end addComputerLine
   
-  function handleChange(e) {
-    //grabs all the <p> tags
-    const text = document.getElementsByClassName("lines") 
+  async function handleChange(e) {
+    const humanLines = document.querySelectorAll(".human")
+    const lastHumanLine = humanLines[humanLines.length-1];
+    
+    //TODO: most of this could be folded into addComputerLine
     if (e.code === 'Enter'  && e.shiftKey){ //insert a new blank line using shift + enter
-        editor.commands.insertContent('<p> <p>') //TODO: make this the proper human paragraph to avoid issues
+        editor.commands.insertContent({
+          type: 'paragraph',
+              content: [
+              {
+              type: 'text',
+              text:  ' '
+              },
+          ],
+      },) 
         return
     }
     if (e.code === 'Enter'){
-        setIsLoading(true)
-        const newSeed = (text[text.length-2].innerText);
-        dispatch({type: 'seed/updated', payload: newSeed}) 
+               // updateSeed()//update the seed then add a new computer line
         addComputerLine()
     }
-
-    if (e.key === 'Tab'){ //Use the down arrow function removes previous suggestion and replaces it with a new one
+   
+    if (e.key === 'Tab' && lastHumanLine.innerText.trim().length === 0 ){ //Use the  removes previous suggestion and replaces it with a new one, as long as the user hasn't sstarted to type.
       e.preventDefault() //prevent tabbing out
-      setIsLoading(true)
-      removeLines() //remove lines then calls addComputerLine
-      //bump the seed
-      const newSeed = (text[text.length-1].innerText + ' ');    
-      dispatch({type: 'seed/updated', payload: newSeed})      
+      await removeLines() //wait for the lines to be rmeoved then add a new one
+      addComputerLine()
         
     } //end TAB
+    editor.chain().focus().run() 
   } //end HandleChange
     
    return (
     <div className="max-w-[50vw] mx-4 mt-8 mb-4 dark:text-white">
     {
-        isLoading ? (<div className="Loading absolute w-[100vw] h-[100vh] bg-white dark:bg-slate-800 z-60"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>) 
+        isLoading ? (<div className="Loading absolute w-[100vw] h-[100vh] bg-white dark:bg-slate-800 z-60"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>) 
         :
         null
       }
