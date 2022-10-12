@@ -1,8 +1,8 @@
-# Welcome to the you (auto)complete me Readme :computer: :memo:
+# you (auto)complete me :computer: :memo:
 
 **Author: Brendan Tuckerman**
 
-[Github]()
+[Live Linkgh-pages not updtate]()
 
 **Stack & Libraries**
 

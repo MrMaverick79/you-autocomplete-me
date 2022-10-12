@@ -89,7 +89,7 @@ function SideBar() { //the concertina sidebar menu
                 showSidebar ? "translate-x-0" : "translate-x-[-100%]"
                  }`}>
                 
-                 <div className="inner container w-[80%]">
+                 <div className="inner container w-[80%] h-90">
                     <div className="instructions">
                             <h3 className="text-lg mt-10">Keys</h3>
                             <div className="instructionalImages inline-flex p-8 text-center">
