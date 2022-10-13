@@ -111,7 +111,7 @@ const Canvas = () => {
        const allHumanLines = document.getElementsByClassName("human") //all the current human
       //Grab the last line that has been written by the human and make this the seed for the generator --i.e so the computer esponds to the human input
       const newSeed = getLastElementWithText(allHumanLines);    
-      resolve(newSeed.innerText)
+      resolve(newSeed.innerText + " ")//add "" to ensure output does not try to add to existing word.
      
      
     })
@@ -211,7 +211,7 @@ const Canvas = () => {
    return (
     <div className="max-w-[50vw] mx-4 mt-8 mb-4 dark:text-white">
     {
-        isLoading ? (<div className="Loading absolute w-[100vw] h-[100vh] bg-white dark:bg-slate-800 z-60"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>) 
+        isLoading ? (<div className="Loading absolute w-[100vw] h-[100vh] bg-white dark:bg-slate-800 z-60"><div className = "lds-ring"><div></div><div></div><div></div><div></div></div></div>) 
         :
         null
       }

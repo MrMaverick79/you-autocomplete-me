@@ -77,21 +77,21 @@ Edgar Allan Poe Model
 William Shakespeare Model
 
 ```
-   **Not So Sonnet**
+   **Write with me**
 
-   My mistresses' cpu is nothing like the sun,
+   Well now Mr Shakespeare
 
-   where thou for this am the world by death
+   If thou mayst thou gently 
 
-   freed, with little
+   write with me
 
-   with their lives the prick and thee, 
+   The better false of thy breath
 
-   a strange machine
+   within these words
 
-   Thou art thou mine false-- my heart be 
+   and like the dregs of thine 
 
-   yours.
+   my words fail.
 
 ```
 
@@ -210,6 +210,10 @@ Check the size of your file--you want as much data as possible (but your trainin
    ```
 
 Depending on the size of your text file, you might like to set some [hyperparameters](https://github.com/ml5js/training-charRNN#hyperparameters). The size of your file will also impact the speed of the training -- my Dickinson and Eliot training took about a minute, while the original Shakespeare full text I tried using was scheduled to run for 14 hours.
+
+As a general guide, these are the hyperparameters I used to get a decent result from Shakespeare:
+
+>
 
 Once the training is complete, you can find the models you made in the `models/` folder. You'll need to copy the entire thing into your project so you can access them.
 
