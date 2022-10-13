@@ -27,7 +27,7 @@ export const CustomParagraph = Node.create<ParagraphOptions>({
   addOptions() {
     return {
       HTMLAttributes: {
-        class: "computer lines"
+        class: "computer italic lines"
       },
       autocomplete: 'on',
     }

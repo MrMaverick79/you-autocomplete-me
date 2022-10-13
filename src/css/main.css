@@ -55,7 +55,7 @@ input[type=radio]:checked ~ label{
 }
 
 /* Computer lines & Typing animation */
-.computer {
+.italic {
    font-style: italic;
 } 
 
@@ -73,7 +73,7 @@ input[type=radio]:checked ~ label{
   overflow: hidden;
   margin: 0 auto;
   position: relative;
-  
+
 
 }
 

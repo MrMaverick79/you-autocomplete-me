@@ -20,7 +20,7 @@ import { CustomMenu } from './CustomMenu';
 import '../css/main.css'
 import '../css/tailwind.css'
 
-//The 'canvas'-- the editor for writing on.
+//The 'canvas'= the editor for writing on.
 const Canvas = () => {
   
   //Component 
@@ -38,13 +38,13 @@ const Canvas = () => {
     extensions: [
       Paragraph.configure({
         HTMLAttributes:{
-          class: "human lines" //class should change depending on author
+          class: "human lines" 
         }
         
       }),
       Document,
       Heading,
-      CustomParagraph, //this has a class of computer
+      CustomParagraph, //this has a class of 'computer italic lines'
       TextStyle,
       Text,
       Placeholder.configure({
@@ -126,7 +126,7 @@ const Canvas = () => {
     dispatch({type: 'seed/updated', payload: updatedSeed })
 
     
-      //generat a new line using charRNN
+    //generate a new line using charRNN
     await rnn.generate({ 
         //options
         seed: updatedSeed,
@@ -178,10 +178,11 @@ const Canvas = () => {
   };//end addComputerLine
   
   async function handleChange(e) {
+    //get the last human line as part of a test 
+    //on whether to provide a new computer line
     const humanLines = document.querySelectorAll(".human")
     const lastHumanLine = humanLines[humanLines.length-1];
     
-    //TODO: most of this could be folded into addComputerLine
     if (e.code === 'Enter'  && e.shiftKey){ //insert a new blank line using shift + enter
         editor.commands.insertContent({
           type: 'paragraph',
@@ -201,21 +202,31 @@ const Canvas = () => {
    
     if (e.key === 'Tab' && lastHumanLine.innerText.trim().length === 0 ){ //Use the  removes previous suggestion and replaces it with a new one, as long as the user hasn't sstarted to type.
       e.preventDefault() //prevent tabbing out
-      await removeLines() //wait for the lines to be rmeoved then add a new one
+
+      await removeLines() //wait for the lines to be removed then add a new one
+      
+      //remove 'computer' from the class name
+      //so that the animation does not trigger
+      //on any line except for the enwly created one.
+      const allComputer = Array.from(document.querySelectorAll('.computer'))
+
+      allComputer.map((element) => {
+          element.classList.remove('computer')
+      })
+
       addComputerLine()
         
     } //end TAB
-    editor.chain().focus().run() 
+    editor.chain().focus().run()  //refocus the editor
   } //end HandleChange
     
-   return (
+  return (
     <div className="max-w-[50vw] mx-4 mt-8 mb-4 dark:text-white">
     {
         isLoading ? (<div className="Loading absolute w-[100vw] h-[100vh] bg-white dark:bg-slate-800 z-60"><div className = "lds-ring"><div></div><div></div><div></div><div></div></div></div>) 
         :
         null
       }
-    
         <CustomMenu editor ={editor}/>  
         <EditorContent  editor={editor} onKeyDown={(e)=> handleChange(e, editor, seed)}/>
     </div>

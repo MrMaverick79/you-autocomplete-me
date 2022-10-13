@@ -209,11 +209,19 @@ Check the size of your file--you want as much data as possible (but your trainin
 
    ```
 
-Depending on the size of your text file, you might like to set some [hyperparameters](https://github.com/ml5js/training-charRNN#hyperparameters). The size of your file will also impact the speed of the training -- my Dickinson and Eliot training took about a minute, while the original Shakespeare full text I tried using was scheduled to run for 14 hours.
+Depending on the size of your text file, you might like to set some [hyperparameters](https://github.com/ml5js/training-charRNN#hyperparameters). The size of your file will also impact the speed of the training -- my Poe training took about a 10 minutes, Dickinson took half a day and the original Shakespeare full text I tried using was scheduled to run for 14 hours. 
 
 As a general guide, these are the hyperparameters I used to get a decent result from Shakespeare:
 
->
+```
+   --rnn_size 256 
+   --seq_length 64
+   --batch_size 32
+   --output_keep_prob 0.75
+   --learning_rate 0.003
+   --num_epochs 100
+
+```
 
 Once the training is complete, you can find the models you made in the `models/` folder. You'll need to copy the entire thing into your project so you can access them.
 
@@ -297,6 +305,8 @@ This could also be done with a simple HTML textarea.
 Models still produces occasional strange output, but hey--it is just a machine.
 
 ~~Editor 'disappears' if the user focuses, types, deletes, and then moves away~~
+
+Animation can stop working if piece gets too long.
 
 
 
