@@ -68,17 +68,19 @@ input[type=radio]:checked ~ label{
 
  .computer:nth-last-child(2){
   width: 100%;
-  animation: typing 1s steps(40);
+  animation: typing 1.5s steps(40);
   white-space: nowrap;
   overflow: hidden;
   margin: 0 auto;
   position: relative;
+  
 
 }
 
 @keyframes typing {
   from { 
-      width: 0 
+      width: 0; 
+     opacity: 0;
   }
 
 }
