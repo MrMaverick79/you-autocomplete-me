@@ -221,7 +221,7 @@ const Canvas = () => {
   } //end HandleChange
     
   return (
-    <div className="max-w-[50vw] mx-4 mt-8 mb-4 dark:text-white">
+    <div className="max-w-[80vw] mx-4 mt-8 mb-4 dark:text-white">
     {
         isLoading ? (<div className="Loading absolute w-[100vw] h-[100vh] bg-white dark:bg-slate-800 z-60"><div className = "lds-ring"><div></div><div></div><div></div><div></div></div></div>) 
         :

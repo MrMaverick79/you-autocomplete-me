@@ -93,11 +93,12 @@ input[type=radio]:checked ~ label{
 
 
 .menuAppear{
-  animation: appear 1s ease-in;
+  animation: appear 0.5s ease-in;
   height: fit-content;
   overflow: hidden;
   /* border: 1px solid #adb5bd; */
   transition: height 0.5s;
+  
 }
 
 @keyframes appear {
